@@ -137,38 +137,30 @@ success "nginx, certbot installed"
 
 # .NET 9
 if ! command -v dotnet &>/dev/null || [[ $(dotnet --version 2>/dev/null | cut -d. -f1) -lt 9 ]]; then
-    info "Installing .NET 9..."
+    info "Installing .NET 9 SDK..."
 
-    # Method 1: Microsoft package repo
-    UBUNTU_VER=$(lsb_release -rs)
-    wget -q "https://packages.microsoft.com/config/ubuntu/${UBUNTU_VER}/packages-microsoft-prod.deb" \
-        -O /tmp/ms-prod.deb 2>/dev/null
-
-    if [[ -f /tmp/ms-prod.deb ]]; then
-        dpkg -i /tmp/ms-prod.deb >/dev/null 2>&1
-        apt-get update -qq
+    # Ubuntu 24.04+ has dotnet in its own repo (no Microsoft repo needed)
+    UBUNTU_VER=$(lsb_release -rs | cut -d. -f1)
+    if [[ "$UBUNTU_VER" -ge 24 ]]; then
+        info "Using Ubuntu built-in .NET packages..."
+        apt-get install -y -qq dotnet-sdk-9.0 2>/dev/null || \
+        apt-get install -y -qq dotnet9 2>/dev/null || \
+        apt-get install -y -qq dotnet-sdk-9.0-source-built-artifacts 2>/dev/null || true
     fi
 
-    # Try SDK first, fall back to runtime-only
-    if apt-get install -y -qq dotnet-sdk-9.0 2>/dev/null; then
-        success ".NET 9 SDK installed"
-    elif apt-get install -y -qq aspnetcore-runtime-9.0 2>/dev/null; then
-        # Runtime only — need SDK for building, install via snap or direct download
-        info "SDK not in apt, installing via dotnet-install script..."
+    # If still not installed, use official dotnet-install.sh (universal fallback)
+    if ! command -v dotnet &>/dev/null || [[ $(dotnet --version 2>/dev/null | cut -d. -f1) -lt 9 ]]; then
+        info "Falling back to official dotnet-install.sh..."
         wget -q https://dot.net/v1/dotnet-install.sh -O /tmp/dotnet-install.sh
         chmod +x /tmp/dotnet-install.sh
-        /tmp/dotnet-install.sh --channel 9.0 --install-dir /usr/share/dotnet
+        /tmp/dotnet-install.sh --channel 9.0 --install-dir /usr/share/dotnet 2>&1 | tail -3
         ln -sf /usr/share/dotnet/dotnet /usr/local/bin/dotnet
-        success ".NET 9 installed via install script"
-    else
-        # Fallback: official dotnet-install.sh (works on any Linux)
-        info "Using official dotnet-install.sh..."
-        wget -q https://dot.net/v1/dotnet-install.sh -O /tmp/dotnet-install.sh
-        chmod +x /tmp/dotnet-install.sh
-        /tmp/dotnet-install.sh --channel 9.0 --install-dir /usr/share/dotnet
-        ln -sf /usr/share/dotnet/dotnet /usr/local/bin/dotnet
-        success ".NET 9 installed via install script"
+        export PATH="$PATH:/usr/share/dotnet"
     fi
+
+    dotnet --version &>/dev/null \
+        && success ".NET 9 installed: $(dotnet --version)" \
+        || error ".NET installation failed."
 else
     success ".NET already installed: $(dotnet --version)"
 fi
