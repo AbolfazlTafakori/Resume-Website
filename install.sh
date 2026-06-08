@@ -155,6 +155,7 @@ if ! command -v dotnet &>/dev/null || [[ $(dotnet --version 2>/dev/null | cut -d
         chmod +x /tmp/dotnet-install.sh
         /tmp/dotnet-install.sh --channel 9.0 --install-dir /usr/share/dotnet 2>&1 | tail -3
         ln -sf /usr/share/dotnet/dotnet /usr/local/bin/dotnet
+        ln -sf /usr/share/dotnet/dotnet /usr/bin/dotnet
         export PATH="$PATH:/usr/share/dotnet"
     fi
 
@@ -250,7 +251,7 @@ After=network.target
 
 [Service]
 WorkingDirectory=${PUBLISH_DIR}
-ExecStart=/usr/bin/dotnet ${PUBLISH_DIR}/ResumeAPI.dll
+ExecStart=/usr/share/dotnet/dotnet ${PUBLISH_DIR}/ResumeAPI.dll
 Restart=always
 RestartSec=5
 SyslogIdentifier=resume-api
