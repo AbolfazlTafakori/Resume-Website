@@ -1,0 +1,27 @@
+# Build outputs
+Backend/ResumeAPI/bin/
+Backend/ResumeAPI/obj/
+
+# Database files
+*.db
+*.db-shm
+*.db-wal
+
+# Uploaded files (user content — not tracked in git)
+Frontend/assets/uploads/
+publish/uploads/
+
+# .NET
+*.user
+.vs/
+
+# Environment / secrets
+.env
+appsettings.Production.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude Code (local dev only)
+.claude/

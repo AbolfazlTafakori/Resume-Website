@@ -1,0 +1,37 @@
+============================================================
+  HOW TO RUN THE PROJECT
+============================================================
+
+--- BACKEND (C# API) ---
+
+1. Open terminal in:
+   Backend\ResumeAPI\
+
+2. Run:
+   dotnet run --urls http://localhost:5000
+
+   API will be available at: http://localhost:5000/api/...
+   Database (LocalDB) is created automatically on first run.
+
+   Default admin credentials:
+   Username: admin
+   Password: admin123
+
+--- FRONTEND ---
+
+1. Open any HTML file in:
+   Frontend\pages\
+
+   Or serve with Python:
+   cd Frontend
+   python -m http.server 3000
+
+2. Pages:
+   - pages/index.html      → Home
+   - pages/portfolio.html  → Portfolio
+   - pages/about.html      → About Me
+   - pages/contact.html    → Contact
+   - admin/login.html      → Admin Panel Login
+   - admin/dashboard.html  → Admin Dashboard
+
+============================================================

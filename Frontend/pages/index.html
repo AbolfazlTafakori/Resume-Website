@@ -1,0 +1,104 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mrnobudi – Backend Developer</title>
+    <meta name="description" content="Personal portfolio of Mrnobudi — Back-end Developer specializing in ASP.NET Core, SQL, Docker and more.">
+    <link rel="icon" type="image/png" href="../assets/images/HomePage/Logo.png">
+    <link rel="stylesheet" href="../css/shared.css">
+    <link rel="stylesheet" href="../css/home.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- NAV -->
+<header>
+    <div class="nav-inner">
+        <a href="index.html" class="nav-logo" id="nav-logo">Mrnobudi</a>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index.html" id="nav-home">Home</a></li>
+            <li><a href="about.html" id="nav-about">About</a></li>
+            <li><a href="portfolio.html" id="nav-portfolio">Portfolio</a></li>
+            <li><a href="contact.html" class="btn-talk" id="nav-contact">Let's talk</a></li>
+        </ul>
+    </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-inner">
+            <div class="hero-text">
+                <h1 id="hero-title">Backend web<br>developer !</h1>
+                <p id="hero-subtitle">Hi, I'm Mrnobudi, passionate Back end Web Developer From IRAN</p>
+            </div>
+            <div class="hero-avatar">
+                <img id="hero-avatar" src="../assets/images/HomePage/Logo.png" alt="Mrnobudi">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SKILLS -->
+<section class="skills">
+    <div class="container">
+        <h2 class="skills-title" id="skills-title">My Skills</h2>
+        <div class="skills-card">
+            <div class="skills-grid" id="skills-grid">
+                <!-- Populated by JS or static fallback -->
+                <div class="skill-cell">
+                    <img src="../assets/images/HomePage/csharp.png" alt="C#">
+                    <span>C#</span>
+                </div>
+                <div class="skill-cell">
+                    <img src="../assets/images/HomePage/Dot-NET.png" alt=".NET">
+                    <span>.NET</span>
+                </div>
+                <div class="skill-cell">
+                    <img src="../assets/images/HomePage/Git.png" alt="Git">
+                    <span>Git</span>
+                </div>
+                <div class="skill-cell">
+                    <img src="../assets/images/HomePage/HTML.png" alt="HTML5">
+                    <span>HTML5</span>
+                </div>
+                <div class="skill-cell">
+                    <img src="../assets/images/HomePage/SQL.png" alt="SQL">
+                    <span>SQL</span>
+                </div>
+                <div class="skill-cell">
+                    <img src="../assets/images/HomePage/Docker.png" alt="Docker">
+                    <span>Docker</span>
+                </div>
+                <div class="skill-cell">
+                    <img src="../assets/images/HomePage/GitHub.png" alt="GitHub">
+                    <span>GitHub</span>
+                </div>
+                <div class="skill-cell">
+                    <img src="../assets/images/HomePage/CSS.png" alt="CSS3">
+                    <span>CSS3</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="../js/config.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/home.js"></script>
+<script>
+    document.getElementById('nav-toggle').addEventListener('click', function() {
+        this.classList.toggle('open');
+        document.getElementById('nav-links').classList.toggle('open');
+    });
+</script>
+</body>
+</html>
+
+
+
+
+
+

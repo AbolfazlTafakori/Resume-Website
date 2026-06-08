@@ -1,0 +1,191 @@
+/* ============================================
+   CONTACT PAGE — pixel-perfect
+   ============================================ */
+
+body {
+    background-image: url('../assets/images/BackGround/YelBack.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url('../assets/images/BackGround/ContactEffect.png');
+    background-size: cover;
+    background-position: center top;
+    opacity: 0.7;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.contact-wrap {
+    position: relative;
+    z-index: 1;
+    padding-top: calc(var(--nav-height) + 28px);
+    padding-bottom: 80px;
+}
+
+/* ---- TITLE ---- */
+.page-title {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 62px;
+    line-height: 1;
+    margin-bottom: 40px;
+    letter-spacing: -0.5px;
+}
+
+/* ---- PROFILE ROW ---- */
+.profile-row {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    margin-bottom: 60px;
+}
+
+.profile-avatar {
+    flex-shrink: 0;
+    width: 230px;
+    height: 230px;
+    border-radius: 50%;
+    border: 4px solid #c9960a;
+    box-shadow:
+        0 0 0 8px rgba(201,150,10,0.15),
+        0 0 40px rgba(201,150,10,0.35);
+    overflow: hidden;
+    background: rgba(30,25,10,0.4);
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
+.profile-info h2 {
+    font-family: var(--font-serif);
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    line-height: 1.1;
+}
+
+.profile-info .role {
+    font-family: var(--font-body);
+    font-size: 22px;
+    font-weight: 400;
+    opacity: 0.65;
+    margin-bottom: 14px;
+}
+
+.profile-info .location {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-size: 20px;
+    font-weight: 400;
+    opacity: 0.78;
+}
+
+.profile-info .location img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+}
+
+/* ---- SOCIAL CARD ---- */
+.social-card {
+    background: rgba(22, 20, 30, 0.58);
+    border-radius: 18px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.social-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.social-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 52px 24px;
+    position: relative;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+/* thin vertical divider lines between cells */
+.social-cell + .social-cell::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 18%;
+    height: 64%;
+    width: 1px;
+    background: rgba(255,255,255,0.18);
+}
+
+.social-cell:hover {
+    background: rgba(255,255,255,0.06);
+}
+
+.social-cell img {
+    width: 96px;
+    height: 96px;
+    object-fit: contain;
+    border-radius: 20px;
+    display: block;
+    transition: transform 0.25s;
+}
+
+.social-cell:hover img {
+    transform: scale(1.08);
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 768px) {
+    .page-title { font-size: 46px; }
+    .profile-avatar { width: 170px; height: 170px; }
+    .social-card { max-width: 100%; }
+    .social-cell img { width: 76px; height: 76px; }
+    .social-cell { padding: 36px 16px; }
+}
+
+@media (max-width: 600px) {
+    .page-title { font-size: 38px; }
+    .profile-row { gap: 20px; }
+    .profile-avatar { width: 140px; height: 140px; }
+    .profile-info h2 { font-size: 22px; }
+
+    .social-grid { grid-template-columns: repeat(2, 1fr); }
+    .social-cell { padding: 32px 16px; }
+    .social-cell img { width: 68px; height: 68px; }
+
+    .social-cell:nth-child(3)::before { display: none; }
+    .social-cell:nth-child(3) { border-top: 1px solid rgba(255,255,255,0.12); }
+    .social-cell:nth-child(4) { border-top: 1px solid rgba(255,255,255,0.12); }
+}
+
+@media (max-width: 480px) {
+    .contact-wrap { padding-top: calc(var(--nav-height) + 16px); }
+    .page-title { font-size: 30px; margin-bottom: 28px; }
+    .profile-row { flex-direction: column; align-items: flex-start; gap: 14px; }
+    .profile-avatar { width: 110px; height: 110px; }
+    .profile-info h2 { font-size: 20px; }
+    .social-cell img { width: 58px; height: 58px; }
+    .social-cell { padding: 24px 12px; }
+}

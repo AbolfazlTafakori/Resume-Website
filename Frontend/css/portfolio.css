@@ -1,0 +1,130 @@
+/* ============================================
+   PORTFOLIO PAGE
+   ============================================ */
+
+body {
+    background-image: url('../assets/images/BackGround/BackGround.png');
+    background-size: cover;
+    background-position: center top;
+    background-attachment: fixed;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url('../assets/images/BackGround/PortfolioBack.png');
+    background-size: cover;
+    background-position: center top;
+    opacity: 0.82;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.portfolio-wrap {
+    position: relative;
+    z-index: 1;
+    padding-top: calc(var(--nav-height) + 40px);
+    padding-bottom: 80px;
+}
+
+.page-title {
+    font-family: var(--font-serif);
+    font-weight: 700;
+    font-size: 42px;
+    margin-bottom: 48px;
+}
+
+/* ---- PROJECT CARD ---- */
+.projects { display: flex; flex-direction: column; gap: 44px; }
+
+.project-card {
+    display: flex;
+    align-items: center;
+    gap: 48px;
+}
+
+.project-card.reverse { flex-direction: row-reverse; }
+
+/* Image box */
+.project-img-box {
+    flex-shrink: 0;
+    width: 300px;
+    height: 190px;
+    background: rgba(255,255,255,0.07);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.project-img-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.project-img-box .placeholder-icon {
+    opacity: 0.3;
+}
+
+/* Info */
+.project-info { flex: 1; }
+
+.project-name {
+    font-family: var(--font-serif);
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.project-btns {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+}
+
+.btn-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 22px;
+    border: 2px solid rgba(255,255,255,0.85);
+    border-radius: 50px;
+    color: var(--white);
+    text-decoration: none;
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.btn-pill:hover {
+    background: var(--white);
+    color: #12122a;
+    border-color: var(--white);
+}
+
+.btn-pill:hover svg { fill: #12122a; }
+
+.btn-pill svg { transition: fill 0.2s; }
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 768px) {
+    .project-card,
+    .project-card.reverse { flex-direction: column; gap: 24px; }
+    .project-img-box { width: 100%; height: 200px; }
+    .page-title { font-size: 32px; }
+    .projects { gap: 32px; }
+}
+
+@media (max-width: 480px) {
+    .page-title { font-size: 26px; }
+    .portfolio-wrap { padding-top: calc(var(--nav-height) + 20px); }
+    .project-img-box { height: 160px; }
+    .project-name { font-size: 18px; }
+    .btn-pill { font-size: 13px; padding: 7px 16px; }
+}

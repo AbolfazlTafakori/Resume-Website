@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact – Mrnobudi</title>
+    <meta name="description" content="Get in touch with Mrnobudi — social links and contact information.">
+    <link rel="icon" type="image/png" href="../assets/images/HomePage/Logo.png">
+    <link rel="stylesheet" href="../css/shared.css">
+    <link rel="stylesheet" href="../css/contact.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- NAV -->
+<header>
+    <div class="nav-inner">
+        <a href="index.html" class="nav-logo" id="nav-logo">Mrnobudi</a>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="index.html" id="nav-home">Home</a></li>
+            <li><a href="about.html" id="nav-about">About</a></li>
+            <li><a href="portfolio.html" id="nav-portfolio">Portfolio</a></li>
+            <li><a href="contact.html" class="btn-talk" id="nav-contact">Let's talk</a></li>
+        </ul>
+    </div>
+</header>
+
+<!-- CONTENT -->
+<div class="contact-wrap">
+    <div class="container">
+        <h1 class="page-title" id="page-title">Contact</h1>
+
+        <!-- Profile -->
+        <div class="profile-row">
+            <div class="profile-avatar">
+                <img id="contact-avatar" src="../assets/images/Contact/Logo.png" alt="Mrnobudi">
+            </div>
+            <div class="profile-info">
+                <h2 id="contact-name">Mrnobudi</h2>
+                <p class="role" id="contact-role">Back-end Developer</p>
+                <p class="location">
+                    <img src="../assets/images/Contact/Location.png" alt="Location">
+                    <span id="contact-location">USA, Dallas</span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Social Links -->
+        <div class="social-card">
+            <div class="social-grid" id="social-grid">
+                <a href="#" class="social-cell" id="link-linkedin">
+                    <img src="../assets/images/Contact/LinkedIn.png" alt="LinkedIn">
+                </a>
+                <a href="#" class="social-cell" id="link-email">
+                    <img src="../assets/images/Contact/Email.png" alt="Email">
+                </a>
+                <a href="#" class="social-cell" id="link-github">
+                    <img src="../assets/images/Contact/GitHub.png" alt="GitHub">
+                </a>
+                <a href="#" class="social-cell" id="link-telegram">
+                    <img src="../assets/images/Contact/Telegram.png" alt="Telegram">
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="../js/config.js"></script>
+<script src="../js/api.js"></script>
+<script src="../js/contact.js"></script>
+<script>
+    document.getElementById('nav-toggle').addEventListener('click', function() {
+        this.classList.toggle('open');
+        document.getElementById('nav-links').classList.toggle('open');
+    });
+</script>
+</body>
+</html>
+
+
+
+
+
+
