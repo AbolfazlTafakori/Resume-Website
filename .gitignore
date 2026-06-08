@@ -23,5 +23,5 @@ appsettings.Production.json
 .DS_Store
 Thumbs.db
 
-# Claude Code (local dev only)
+# Local dev tools
 .claude/
