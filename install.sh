@@ -178,18 +178,19 @@ APP_PORT=5000
 JWT_SECRET=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9!@#$%' | fold -w 64 | head -n 1)
 
 rm -rf "$INSTALL_DIR"
-mkdir -p "$INSTALL_DIR" "$DATA_DIR"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 if [[ -f "${SCRIPT_DIR}/Backend/ResumeAPI/ResumeAPI.csproj" ]]; then
     info "Using local project files..."
+    mkdir -p "$INSTALL_DIR"
     cp -r "${SCRIPT_DIR}/." "$INSTALL_DIR/"
 else
     info "Cloning from GitHub..."
-    rm -rf "$INSTALL_DIR"
     git clone --depth=1 https://github.com/AbolfazlTafakori/Resume-Website.git "$INSTALL_DIR" \
         || error "Could not clone repository."
 fi
+
+mkdir -p "$DATA_DIR" "$INSTALL_DIR/publish/uploads"
 
 info "Building backend..."
 cd "$INSTALL_DIR/Backend/ResumeAPI"
