@@ -193,8 +193,11 @@ fi
 mkdir -p "$DATA_DIR" "$INSTALL_DIR/publish/uploads"
 
 info "Building backend..."
+chmod -R 777 "$INSTALL_DIR/Backend"
 cd "$INSTALL_DIR/Backend/ResumeAPI"
-dotnet publish -c Release -o "$PUBLISH_DIR" --nologo -q
+dotnet publish -c Release -o "$PUBLISH_DIR" --nologo 2>&1 | grep -E "error|warning|succeeded|failed" || true
+# verify build succeeded
+[[ -f "$PUBLISH_DIR/ResumeAPI.dll" ]] || error "Build failed — ResumeAPI.dll not found in publish folder."
 success "Backend built"
 
 mkdir -p "$PUBLISH_DIR/uploads"
