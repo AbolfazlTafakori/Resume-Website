@@ -186,6 +186,7 @@ if [[ -f "${SCRIPT_DIR}/Backend/ResumeAPI/ResumeAPI.csproj" ]]; then
     cp -r "${SCRIPT_DIR}/." "$INSTALL_DIR/"
 else
     info "Cloning from GitHub..."
+    rm -rf "$INSTALL_DIR"
     git clone --depth=1 https://github.com/AbolfazlTafakori/Resume-Website.git "$INSTALL_DIR" \
         || error "Could not clone repository."
 fi
