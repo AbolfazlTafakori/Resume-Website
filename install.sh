@@ -441,6 +441,15 @@ systemctl enable certbot.timer 2>/dev/null \
     || { (crontab -l 2>/dev/null; echo "0 3 * * * certbot renew --quiet") | crontab -; }
 
 # ══════════════════════════════════════════════
+#  STEP 9 — Install r-ui management tool
+# ══════════════════════════════════════════════
+step "Installing r-ui Management Tool"
+
+cp "${INSTALL_DIR}/r-ui.sh" /usr/local/bin/r-ui
+chmod +x /usr/local/bin/r-ui
+success "r-ui installed — type 'r-ui' anytime to manage your site"
+
+# ══════════════════════════════════════════════
 #  Done
 # ══════════════════════════════════════════════
 echo ""
@@ -452,13 +461,13 @@ echo -e "${NC}"
 echo -e "  🌐  Website   : ${CYAN}https://${MAIN_DOMAIN}${NC}"
 echo -e "  🔧  Admin     : ${CYAN}https://${ADMIN_DOMAIN}${NC}"
 echo -e "  👤  Username  : ${CYAN}${ADMIN_USER}${NC}"
-echo -e "  🔑  Password  : ${CYAN}(the one you set)${NC}"
+echo -e "  🔑  Password  : ${CYAN}${ADMIN_PASS}${NC}"
 echo ""
-echo -e "  ${YELLOW}Useful commands:${NC}"
-echo -e "  systemctl status resume-api          — check API status"
-echo -e "  systemctl restart resume-api         — restart API"
+echo -e "  ${YELLOW}Management tool:${NC}"
+echo -e "  ${BOLD}r-ui${NC}   — change domains, credentials, restart service"
+echo ""
+echo -e "  ${YELLOW}Other useful commands:${NC}"
 echo -e "  journalctl -u resume-api -f          — live API logs"
-echo -e "  nginx -t && systemctl reload nginx   — reload nginx"
 echo -e "  certbot renew                        — renew SSL manually"
 echo ""
 if ! $SERVICE_OK; then
