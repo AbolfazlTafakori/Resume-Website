@@ -1,9 +1,9 @@
-﻿/* ============================================
+/* ============================================
    HOME PAGE
    ============================================ */
 
 body {
-    background-image: url('../assets/images/BackGround/BackGround.png');
+    background-image: url('../assets/images/BackGround/BackGround.jpg');
     background-size: cover;
     background-position: center top;
     background-attachment: fixed;
@@ -13,7 +13,7 @@ body::before {
     content: '';
     position: fixed;
     inset: 0;
-    background-image: url('../assets/images/BackGround/HomeBack.png');
+    background-image: url('../assets/images/BackGround/HomeBack.jpg');
     background-size: cover;
     background-position: center top;
     opacity: 0.8;

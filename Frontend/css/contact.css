@@ -3,7 +3,7 @@
    ============================================ */
 
 body {
-    background-image: url('../assets/images/BackGround/YelBack.png');
+    background-image: url('../assets/images/BackGround/YelBack.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -14,7 +14,7 @@ body::before {
     content: '';
     position: fixed;
     inset: 0;
-    background-image: url('../assets/images/BackGround/ContactEffect.png');
+    background-image: url('../assets/images/BackGround/ContactEffect.jpg');
     background-size: cover;
     background-position: center top;
     opacity: 0.7;

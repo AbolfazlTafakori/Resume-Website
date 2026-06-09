@@ -3,7 +3,7 @@
    ============================================ */
 
 body {
-    background-image: url('../assets/images/BackGround/Gradient.png');
+    background-image: url('../assets/images/BackGround/Gradient.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -13,7 +13,7 @@ body::before {
     content: '';
     position: fixed;
     inset: 0;
-    background-image: url('../assets/images/BackGround/RedEffect.png');
+    background-image: url('../assets/images/BackGround/RedEffect.jpg');
     background-size: cover;
     background-position: center;
     opacity: 1;

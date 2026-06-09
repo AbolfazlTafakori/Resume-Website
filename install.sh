@@ -332,6 +332,22 @@ step "Configuring Nginx"
 
 rm -f /etc/nginx/sites-enabled/default
 
+# ── Global nginx performance settings ───────
+cat > /etc/nginx/conf.d/performance.conf <<'NGINXPERF'
+gzip on;
+gzip_vary on;
+gzip_proxied any;
+gzip_comp_level 6;
+gzip_types text/plain text/css text/javascript application/javascript application/json image/svg+xml;
+
+open_file_cache max=1000 inactive=20s;
+open_file_cache_valid 30s;
+open_file_cache_min_uses 2;
+
+client_max_body_size 20M;
+keepalive_timeout 65;
+NGINXPERF
+
 # ── Main resume site ────────────────────────
 cat > "/etc/nginx/sites-available/resume-main" <<EOF
 server {
@@ -347,6 +363,18 @@ server {
 
     location / {
         try_files \$uri \$uri/ =404;
+    }
+
+    location ~* \.(jpg|jpeg|png|gif|ico|svg|webp|woff2|woff|ttf)$ {
+        expires 30d;
+        add_header Cache-Control "public, immutable";
+        try_files \$uri =404;
+    }
+
+    location ~* \.(css|js)$ {
+        expires 7d;
+        add_header Cache-Control "public";
+        try_files \$uri =404;
     }
 
     error_page 404 /pages/404.html;
