@@ -406,28 +406,47 @@ function editProject(id) {
 }
 
 document.getElementById('project-save-btn').addEventListener('click', async () => {
-    const id = document.getElementById('project-edit-id').value;
-    const imgFile = document.getElementById('file-project-img');
-    let imagePath = null;
-    if (imgFile.files[0]) {
-        imagePath = await uploadFile(imgFile, document.getElementById('preview-project-img'));
-    }
-    const body = {
-        name:      document.getElementById('project-name').value,
-        overview:  document.getElementById('project-overview').value,
-        viewUrl:   document.getElementById('project-view').value,
-        githubUrl: document.getElementById('project-github').value,
-    };
-    if (imagePath) body.imagePath = imagePath;
+    const nameVal = document.getElementById('project-name').value.trim();
+    if (!nameVal) { showToast('Project name is required.', true); return; }
 
-    if (id) {
-        await fetch(`${API}/projects/${id}`, { method: 'PUT', headers: authHeaders(), body: JSON.stringify(body) });
-    } else {
-        await fetch(`${API}/projects`, { method: 'POST', headers: authHeaders(), body: JSON.stringify(body) });
+    const saveBtn = document.getElementById('project-save-btn');
+    saveBtn.disabled = true;
+    saveBtn.textContent = 'Saving...';
+
+    try {
+        const id = document.getElementById('project-edit-id').value;
+        const imgFile = document.getElementById('file-project-img');
+        let imagePath = null;
+        if (imgFile.files[0]) {
+            imagePath = await uploadFile(imgFile, document.getElementById('preview-project-img'));
+        }
+        const body = {
+            name:      nameVal,
+            overview:  document.getElementById('project-overview').value,
+            viewUrl:   document.getElementById('project-view').value,
+            githubUrl: document.getElementById('project-github').value,
+        };
+        if (imagePath) body.imagePath = imagePath;
+
+        const url    = id ? `${API}/projects/${id}` : `${API}/projects`;
+        const method = id ? 'PUT' : 'POST';
+        const res = await fetch(url, { method, headers: authHeaders(), body: JSON.stringify(body) });
+
+        if (!res.ok) {
+            const txt = await res.text().catch(() => res.status);
+            showToast(`Save failed (${res.status}): ${txt}`, true);
+            return;
+        }
+
+        closeModal('modal-project');
+        await loadProjects();
+        showToast('Project saved!');
+    } catch (e) {
+        showToast('Save failed: ' + e.message, true);
+    } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Save';
     }
-    closeModal('modal-project');
-    await loadProjects();
-    showToast('Project saved!');
 });
 
 function deleteProject(id) {

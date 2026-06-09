@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (profile.name)          document.getElementById('contact-name').textContent     = profile.name;
         if (profile.title)         document.getElementById('contact-role').textContent     = profile.title;
         if (profile.location)      document.getElementById('contact-location').textContent = profile.location;
-        if (profile.contactAvatar) document.getElementById('contact-avatar').src = `${API_BASE}/uploads/${profile.contactAvatar}`;
+        if (profile.contactAvatar) swapAvatar(document.getElementById('contact-avatar'), `${API_BASE}/uploads/${profile.contactAvatar}`);
         const contactAvatarEl = document.querySelector('.profile-avatar');
         if (contactAvatarEl) {
             const color = profile.contactAvatarBorderColor || '#c9960a';
@@ -45,3 +45,13 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (window.revealScan) revealScan();
 });
+
+function swapAvatar(imgEl, newSrc) {
+    const tmp = new Image();
+    tmp.onload = () => {
+        imgEl.style.transition = 'opacity 0.3s ease';
+        imgEl.style.opacity = '0';
+        setTimeout(() => { imgEl.src = newSrc; imgEl.style.opacity = '1'; }, 150);
+    };
+    tmp.src = newSrc;
+}

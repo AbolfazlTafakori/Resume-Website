@@ -16,7 +16,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (profile) {
         if (profile.heroTitle && titleEl)       titleEl.innerHTML      = profile.heroTitle;
         if (profile.heroSubtitle && subtitleEl) subtitleEl.textContent = profile.heroSubtitle;
-        if (profile.homeAvatar) document.getElementById('hero-avatar').src = `${API_BASE}/uploads/${profile.homeAvatar}`;
+
+        const avatarEl = document.getElementById('hero-avatar');
+        if (avatarEl && profile.homeAvatar) {
+            swapAvatar(avatarEl, `${API_BASE}/uploads/${profile.homeAvatar}`);
+        }
+
         const homeAvatarEl = document.querySelector('.hero-avatar img');
         if (homeAvatarEl) {
             const color = profile.homeAvatarBorderColor || '#5b8dee';
@@ -49,3 +54,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     if (window.revealScan) revealScan();
 });
+
+/* Cross-fade to new avatar src without flicker */
+function swapAvatar(imgEl, newSrc) {
+    const tmp = new Image();
+    tmp.onload = () => {
+        imgEl.style.transition = 'opacity 0.3s ease';
+        imgEl.style.opacity = '0';
+        setTimeout(() => {
+            imgEl.src = newSrc;
+            imgEl.style.opacity = '1';
+        }, 150);
+    };
+    tmp.src = newSrc;
+}
