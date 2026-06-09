@@ -1,8 +1,12 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    document.getElementById('nav-toggle').addEventListener('click', function () {
-        this.classList.toggle('open');
-        document.getElementById('nav-links').classList.toggle('open');
-    });
+    const grid = document.getElementById('social-grid');
+
+    /* ── Skeleton ── */
+    if (grid) {
+        grid.innerHTML = Array(4).fill(0).map(() =>
+            `<div class="social-cell skeleton skeleton-block" style="height:72px;"></div>`
+        ).join('');
+    }
 
     applySiteTexts('contact');
 
@@ -26,7 +30,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     const socials = await apiFetch('/socials');
-    const grid = document.getElementById('social-grid');
     if (socials && socials.length && grid) {
         grid.innerHTML = socials.map(s => {
             const iconSrc = s.iconPath && s.iconPath.startsWith('preset:')
@@ -36,5 +39,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <img src="${iconSrc}" alt="${s.name}">
             </a>`;
         }).join('');
+    } else if (grid) {
+        grid.innerHTML = '';
     }
+
+    if (window.revealScan) revealScan();
 });

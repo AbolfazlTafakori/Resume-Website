@@ -3,14 +3,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     const subtitleEl = document.getElementById('hero-subtitle');
     const grid       = document.getElementById('skills-grid');
 
-    const origTitle    = titleEl ? titleEl.innerHTML : '';
-    const origSubtitle = subtitleEl ? subtitleEl.textContent : '';
-    const origGrid     = grid ? grid.innerHTML : '';
-
-    document.getElementById('nav-toggle').addEventListener('click', function () {
-        this.classList.toggle('open');
-        document.getElementById('nav-links').classList.toggle('open');
-    });
+    /* ── Skeleton for skills ── */
+    if (grid) {
+        grid.innerHTML = Array(6).fill(0).map(() =>
+            `<div class="skill-cell skeleton skeleton-block" style="height:80px;"></div>`
+        ).join('');
+    }
 
     applySiteTexts('home');
 
@@ -45,5 +43,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <span>${s.name}</span>
             </div>`;
         }).join('');
+    } else if (grid) {
+        grid.innerHTML = '';
     }
+
+    if (window.revealScan) revealScan();
 });

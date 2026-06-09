@@ -98,38 +98,81 @@ header {
     padding: 0 50px;
 }
 
-/* ---- SKELETON / LOADING ---- */
+/* ======================================
+   ANIMATIONS
+   ====================================== */
+
+/* ---- Keyframes ---- */
 @keyframes shimmer {
     0%   { background-position: -600px 0; }
     100% { background-position:  600px 0; }
 }
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInLeft {
+    from { opacity: 0; transform: translateX(-28px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes fadeInRight {
+    from { opacity: 0; transform: translateX(28px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.88); }
+    to   { opacity: 1; transform: scale(1); }
+}
+@keyframes navSlideDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
 
+/* ---- Skeleton ---- */
 .skeleton {
     background: linear-gradient(90deg,
         rgba(255,255,255,0.06) 25%,
-        rgba(255,255,255,0.13) 50%,
+        rgba(255,255,255,0.14) 50%,
         rgba(255,255,255,0.06) 75%);
     background-size: 600px 100%;
     animation: shimmer 1.4s infinite linear;
     border-radius: 8px;
 }
+.skeleton-line  { height: 16px; margin-bottom: 10px; border-radius: 6px; }
+.skeleton-block { border-radius: 12px; }
 
-.skeleton-line {
-    height: 16px;
-    margin-bottom: 10px;
-    border-radius: 6px;
+/* ---- Stagger fadeInUp (API content) ---- */
+.page-loaded {
+    animation: fadeInUp 0.45s cubic-bezier(0.22,1,0.36,1) both;
 }
+.page-loaded:nth-child(1)  { animation-delay: 0.00s; }
+.page-loaded:nth-child(2)  { animation-delay: 0.07s; }
+.page-loaded:nth-child(3)  { animation-delay: 0.14s; }
+.page-loaded:nth-child(4)  { animation-delay: 0.21s; }
+.page-loaded:nth-child(5)  { animation-delay: 0.28s; }
+.page-loaded:nth-child(6)  { animation-delay: 0.35s; }
+.page-loaded:nth-child(7)  { animation-delay: 0.42s; }
+.page-loaded:nth-child(8)  { animation-delay: 0.49s; }
 
-.skeleton-block {
-    border-radius: 12px;
+/* ---- Scroll reveal ---- */
+.reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.55s cubic-bezier(0.22,1,0.36,1),
+                transform 0.55s cubic-bezier(0.22,1,0.36,1);
 }
+.reveal.from-left  { transform: translateX(-28px); }
+.reveal.from-right { transform: translateX(28px); }
+.reveal.visible {
+    opacity: 1;
+    transform: translate(0);
+}
+.reveal.delay-1 { transition-delay: 0.10s; }
+.reveal.delay-2 { transition-delay: 0.20s; }
+.reveal.delay-3 { transition-delay: 0.30s; }
 
-/* page fade-in after load */
-.page-loaded { animation: fadeInUp 0.4s ease both; }
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
+/* ---- Nav entrance ---- */
+header { animation: navSlideDown 0.5s cubic-bezier(0.22,1,0.36,1) both; }
 
 /* ---- HAMBURGER ---- */
 .nav-toggle {

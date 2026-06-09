@@ -31,10 +31,10 @@
 <!-- CONTENT -->
 <div class="about-wrap">
     <div class="container">
-        <h1 class="page-title" id="page-title">About me</h1>
+        <h1 class="page-title reveal" id="page-title">About me</h1>
 
         <!-- Profile -->
-        <div class="profile-row">
+        <div class="profile-row reveal delay-1">
             <div class="profile-avatar">
                 <img id="about-avatar" src="../assets/images/AboutMe/Logo.png" alt="Mrnobudi">
             </div>
@@ -45,19 +45,19 @@
         </div>
 
         <!-- Description -->
-        <p class="about-desc" id="about-desc">
+        <p class="about-desc reveal delay-2" id="about-desc">
             Chief Technology Officer with experience in leading innovative teams and implementing scalable solutions.
             Skilled in optimizing network infrastructure, system security, and aligning technology strategies with business goals.
             Strong ability to foster a culture of learning and continuous improvement in dynamic environments.
         </p>
 
         <!-- Education -->
-        <div class="section-badge" id="edu-header">Education</div>
+        <div class="section-badge reveal" id="edu-header">Education</div>
         <div class="section-divider"></div>
         <ul class="edu-list" id="edu-list"></ul>
 
         <!-- Experience -->
-        <div class="section-badge" id="exp-header">Experience</div>
+        <div class="section-badge reveal" id="exp-header">Experience</div>
         <div class="section-divider"></div>
         <div class="exp-list" id="exp-list"></div>
     </div>
@@ -65,6 +65,7 @@
 
 <script src="../js/config.js"></script>
 <script src="../js/api.js"></script>
+<script src="../js/animations.js"></script>
 <script src="../js/about.js"></script>
 <script>
     document.getElementById('nav-toggle').addEventListener('click', function() {

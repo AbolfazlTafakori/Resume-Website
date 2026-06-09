@@ -1,8 +1,14 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    document.getElementById('nav-toggle').addEventListener('click', function () {
-        this.classList.toggle('open');
-        document.getElementById('nav-links').classList.toggle('open');
-    });
+    const eduList = document.getElementById('edu-list');
+    const expList = document.getElementById('exp-list');
+
+    /* ── Skeletons ── */
+    if (eduList) eduList.innerHTML = Array(2).fill(0).map(() =>
+        `<li class="skeleton skeleton-block" style="height:52px;margin-bottom:10px;list-style:none;"></li>`
+    ).join('');
+    if (expList) expList.innerHTML = Array(2).fill(0).map(() =>
+        `<div class="skeleton skeleton-block" style="height:90px;margin-bottom:12px;"></div>`
+    ).join('');
 
     applySiteTexts('about');
 
@@ -28,17 +34,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const education = await apiFetch('/education');
     if (education && education.length) {
-        document.getElementById('edu-list').innerHTML = education.map(e => `
+        eduList.innerHTML = education.map(e => `
             <li class="page-loaded">
                 <strong>${e.period}</strong>
                 <span>${e.description}</span>
             </li>
         `).join('');
+    } else if (eduList) {
+        eduList.innerHTML = '';
     }
 
     const experience = await apiFetch('/experience');
     if (experience && experience.length) {
-        document.getElementById('exp-list').innerHTML = experience.map(e => `
+        expList.innerHTML = experience.map(e => `
             <div class="exp-item page-loaded">
                 <div class="exp-company">${e.company}</div>
                 <div class="exp-role-wrap"><div class="exp-role">${e.role} (${e.period})</div></div>
@@ -47,5 +55,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 </ul>
             </div>
         `).join('');
+    } else if (expList) {
+        expList.innerHTML = '';
     }
+
+    if (window.revealScan) revealScan();
 });

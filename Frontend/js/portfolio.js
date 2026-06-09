@@ -15,19 +15,24 @@ function closeOverview(e) {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-    document.getElementById('nav-toggle').addEventListener('click', function () {
-        this.classList.toggle('open');
-        document.getElementById('nav-links').classList.toggle('open');
-    });
-
     applySiteTexts('portfolio');
 
     const list = document.getElementById('projects-list');
+
+    /* ── Skeleton ── */
+    if (list) {
+        list.innerHTML = Array(3).fill(0).map(() =>
+            `<div class="project-card skeleton skeleton-block" style="height:220px;margin-bottom:24px;"></div>`
+        ).join('');
+    }
+
     const projects = await apiFetch('/projects');
+
     if (!projects || !projects.length) {
         if (list) list.innerHTML = `<p style="color:rgba(255,255,255,0.35);font-size:15px;text-align:center;padding:60px 0;">No projects yet.</p>`;
         return;
     }
+
     if (projects && projects.length && list) {
         list.innerHTML = projects.map((p, i) => {
             const isReverse = i % 2 !== 0;
@@ -54,4 +59,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             </div>`;
         }).join('');
     }
+
+    if (window.revealScan) revealScan();
 });
