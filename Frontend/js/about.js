@@ -63,11 +63,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 function swapAvatar(imgEl, newSrc) {
+    if (!imgEl) return;
+    imgEl.style.opacity = '0';
     const tmp = new Image();
-    tmp.onload = () => {
-        imgEl.style.transition = 'opacity 0.3s ease';
-        imgEl.style.opacity = '0';
-        setTimeout(() => { imgEl.src = newSrc; imgEl.style.opacity = '1'; }, 150);
-    };
+    tmp.onload = () => { imgEl.src = newSrc; imgEl.style.opacity = '1'; };
+    tmp.onerror = () => {};
     tmp.src = newSrc;
 }

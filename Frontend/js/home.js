@@ -55,16 +55,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (window.revealScan) revealScan();
 });
 
-/* Cross-fade to new avatar src without flicker */
+/* Load avatar — fade in when ready */
 function swapAvatar(imgEl, newSrc) {
+    if (!imgEl) return;
+    imgEl.style.opacity = '0';
     const tmp = new Image();
     tmp.onload = () => {
-        imgEl.style.transition = 'opacity 0.3s ease';
-        imgEl.style.opacity = '0';
-        setTimeout(() => {
-            imgEl.src = newSrc;
-            imgEl.style.opacity = '1';
-        }, 150);
+        imgEl.src = newSrc;
+        imgEl.style.opacity = '1';
     };
+    tmp.onerror = () => { /* keep hidden if image fails */ };
     tmp.src = newSrc;
 }
