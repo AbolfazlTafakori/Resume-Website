@@ -5,6 +5,19 @@
 // API_BASE is defined in config.js
 const API = API_BASE;
 
+function escapeHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function safeUrl(url) {
+    if (!url) return '#';
+    try {
+        const p = new URL(url);
+        return ['http:', 'https:', 'mailto:'].includes(p.protocol) ? url : '#';
+    } catch { return '#'; }
+}
+
 // ---- PRESET SKILL ICONS ----
 // To add more: drop PNG files into Frontend/assets/images/HomePage/ and add an entry here
 const PRESET_ICONS = [
@@ -267,9 +280,9 @@ async function loadSkills() {
 function renderSkills() {
     document.getElementById('skills-list').innerHTML = skills.map(s => `
         <div class="item-row" data-id="${s.id}">
-            <img class="item-icon" src="${skillIconUrl(s.iconPath)}" alt="${s.name}"
+            <img class="item-icon" src="${escapeHtml(skillIconUrl(s.iconPath))}" alt="${escapeHtml(s.name)}"
                  style="background:var(--surface2);border-radius:8px;object-fit:contain;">
-            <span class="item-name">${s.name}</span>
+            <span class="item-name">${escapeHtml(s.name)}</span>
             <div class="item-actions">
                 <button class="btn-icon" onclick="editSkill(${s.id})">
                     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
@@ -368,8 +381,8 @@ async function loadProjects() {
 function renderProjects() {
     document.getElementById('projects-list').innerHTML = projects.map(p => `
         <div class="item-row" data-id="${p.id}">
-            <span class="item-name">${p.name}</span>
-            <span class="item-sub">${p.viewUrl || ''}</span>
+            <span class="item-name">${escapeHtml(p.name)}</span>
+            <span class="item-sub">${escapeHtml(p.viewUrl || '')}</span>
             <div class="item-actions">
                 <button class="btn-icon" onclick="editProject(${p.id})">
                     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
@@ -473,8 +486,8 @@ function renderEducation() {
     document.getElementById('edu-list').innerHTML = educations.map(e => `
         <div class="item-row" data-id="${e.id}">
             <div style="flex:1">
-                <div class="item-name">${e.period}</div>
-                <div class="item-sub">${e.description}</div>
+                <div class="item-name">${escapeHtml(e.period)}</div>
+                <div class="item-sub">${escapeHtml(e.description)}</div>
             </div>
             <div class="item-actions">
                 <button class="btn-icon" onclick="editEdu(${e.id})">
@@ -545,8 +558,8 @@ function renderExperience() {
     document.getElementById('exp-list').innerHTML = experiences.map(e => `
         <div class="item-row" data-id="${e.id}">
             <div style="flex:1">
-                <div class="item-name">${e.company}</div>
-                <div class="item-sub">${e.role} · ${e.period}</div>
+                <div class="item-name">${escapeHtml(e.company)}</div>
+                <div class="item-sub">${escapeHtml(e.role)} · ${escapeHtml(e.period)}</div>
             </div>
             <div class="item-actions">
                 <button class="btn-icon" onclick="editExp(${e.id})">
@@ -634,11 +647,11 @@ function renderSocials() {
     if (!el) return;
     el.innerHTML = socials.map(s => `
         <div class="item-row" data-id="${s.id}">
-            <img class="item-icon" src="${socialIconUrl(s.iconPath)}" alt="${s.name}"
+            <img class="item-icon" src="${escapeHtml(socialIconUrl(s.iconPath))}" alt="${escapeHtml(s.name)}"
                  style="background:var(--surface2);border-radius:8px;object-fit:contain;">
             <div style="flex:1">
-                <div class="item-name">${s.name}</div>
-                <div class="item-sub">${s.url || ''}</div>
+                <div class="item-name">${escapeHtml(s.name)}</div>
+                <div class="item-sub">${escapeHtml(s.url || '')}</div>
             </div>
             <div class="item-actions">
                 <button class="btn-icon" onclick="editSocial(${s.id})">
@@ -749,12 +762,24 @@ async function savePassword() {
     const cur = document.getElementById('pwd-current').value;
     const nw  = document.getElementById('pwd-new').value;
     const cnf = document.getElementById('pwd-confirm').value;
-    if (nw !== cnf) { alert('Passwords do not match'); return; }
-    await fetch(`${API}/auth/change-password`, {
-        method: 'POST',
-        headers: authHeaders(),
-        body: JSON.stringify({ currentPassword: cur, newPassword: nw })
-    });
+    if (!cur || !nw) { showToast('All password fields are required.', true); return; }
+    if (nw.length < 8) { showToast('New password must be at least 8 characters.', true); return; }
+    if (nw !== cnf) { showToast('Passwords do not match.', true); return; }
+    try {
+        const res = await fetch(`${API}/auth/change-password`, {
+            method: 'POST',
+            headers: authHeaders(),
+            body: JSON.stringify({ currentPassword: cur, newPassword: nw })
+        });
+        if (res.ok) {
+            showToast('Password changed successfully!');
+            document.getElementById('pwd-current').value = '';
+            document.getElementById('pwd-new').value = '';
+            document.getElementById('pwd-confirm').value = '';
+        } else {
+            showToast('Current password is incorrect.', true);
+        }
+    } catch { showToast('Failed to change password.', true); }
 }
 
 // ---- SAVE ALL ----
