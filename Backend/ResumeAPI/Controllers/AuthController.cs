@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Collections.Concurrent;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -13,13 +14,34 @@ namespace ResumeAPI.Controllers;
 [Route("api/auth")]
 public class AuthController(AppDbContext db, IConfiguration config) : ControllerBase
 {
+    // Simple in-memory brute-force protection: max 5 attempts per IP per 10 minutes
+    private static readonly ConcurrentDictionary<string, (int Count, DateTime Window)> _loginAttempts = new();
+
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] LoginRequest req)
     {
+        var ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+        var now = DateTime.UtcNow;
+
+        var entry = _loginAttempts.GetOrAdd(ip, _ => (0, now));
+        if (now - entry.Window > TimeSpan.FromMinutes(10))
+            entry = (0, now);
+
+        if (entry.Count >= 5)
+        {
+            var wait = (int)(10 - (now - entry.Window).TotalMinutes) + 1;
+            return StatusCode(429, $"Too many attempts. Try again in {wait} minutes.");
+        }
+
         var user = await db.AdminUsers.FirstOrDefaultAsync(u => u.Username == req.Username);
         if (user == null || !BCrypt.Net.BCrypt.Verify(req.Password, user.PasswordHash))
+        {
+            _loginAttempts[ip] = (entry.Count + 1, entry.Window);
             return Unauthorized();
+        }
 
+        // Reset on success
+        _loginAttempts.TryRemove(ip, out _);
         var token = GenerateToken(user.Username);
         return Ok(new { token });
     }

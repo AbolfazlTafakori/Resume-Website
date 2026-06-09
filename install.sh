@@ -346,6 +346,16 @@ open_file_cache_min_uses 2;
 
 client_max_body_size 20M;
 keepalive_timeout 65;
+
+# Security headers
+add_header X-Frame-Options "SAMEORIGIN" always;
+add_header X-Content-Type-Options "nosniff" always;
+add_header X-XSS-Protection "1; mode=block" always;
+add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+add_header Permissions-Policy "camera=(), microphone=(), geolocation=()" always;
+
+# Limit login endpoint rate
+limit_req_zone \$binary_remote_addr zone=login:10m rate=5r/m;
 NGINXPERF
 
 # ── Main resume site ────────────────────────
@@ -379,6 +389,16 @@ server {
 
     error_page 404 /pages/404.html;
     location = /pages/404.html { internal; }
+
+    location = /api/auth/login {
+        limit_req zone=login burst=3 nodelay;
+        proxy_pass         http://localhost:${APP_PORT}/api/auth/login;
+        proxy_http_version 1.1;
+        proxy_set_header   Host              \$host;
+        proxy_set_header   X-Real-IP         \$remote_addr;
+        proxy_set_header   X-Forwarded-For   \$proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-Proto \$scheme;
+    }
 
     location /api/ {
         proxy_pass         http://localhost:${APP_PORT}/api/;
