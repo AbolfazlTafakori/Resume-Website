@@ -270,10 +270,11 @@ menu_update() {
     fi
 
     info "Updating frontend files..."
-    # Replace frontend but keep uploads
-    rsync -a --delete \
-        --exclude 'js/config.js' \
-        "${TMP_DIR}/Frontend/" "${FRONTEND_DIR}/"
+    # Save production config.js, replace all frontend, restore it
+    local saved_config
+    saved_config=$(cat "${FRONTEND_DIR}/js/config.js" 2>/dev/null || echo "const API_BASE = '/api';")
+    cp -r "${TMP_DIR}/Frontend/." "${FRONTEND_DIR}/"
+    echo "$saved_config" > "${FRONTEND_DIR}/js/config.js"
 
     info "Updating management tool..."
     cp "${TMP_DIR}/r-ui.sh" /usr/local/bin/r-ui
