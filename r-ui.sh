@@ -248,13 +248,14 @@ menu_update() {
 
     info "Pulling latest code..."
     local TMP_DIR="/tmp/resume-update-$$"
+    cd /tmp
     git clone --depth=1 https://github.com/AbolfazlTafakori/Resume-Website.git "$TMP_DIR" 2>&1 \
         || { fail "Git clone failed — check internet connection"; pause; return; }
 
     info "Rebuilding backend..."
     rm -rf /tmp/resume-build
     mkdir -p /tmp/resume-build
-    cd "${TMP_DIR}/Backend/ResumeAPI"
+    cd "${TMP_DIR}/Backend/ResumeAPI" || { fail "Source directory not found"; pause; return; }
     "$dotnet_exec" publish -c Release \
         -o "$PUBLISH_DIR" \
         -p:BaseIntermediateOutputPath=/tmp/resume-build/obj/ \
