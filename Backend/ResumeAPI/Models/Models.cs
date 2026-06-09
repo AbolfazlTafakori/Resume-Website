@@ -12,7 +12,9 @@ public class Profile
     public string? HomeAvatar    { get; set; }
     public string? AboutAvatar   { get; set; }
     public string? ContactAvatar { get; set; }
-    public string  AvatarBorderColor { get; set; } = "#5b8dee";
+    public string  HomeAvatarBorderColor    { get; set; } = "#5b8dee";
+    public string  AboutAvatarBorderColor   { get; set; } = "#5b8dee";
+    public string  ContactAvatarBorderColor { get; set; } = "#c9960a";
 }
 
 public class Skill
@@ -27,6 +29,7 @@ public class Project
 {
     public int    Id        { get; set; }
     public string Name      { get; set; } = "";
+    public string? Overview  { get; set; }
     public string? ImagePath { get; set; }
     public string? ViewUrl   { get; set; }
     public string? GithubUrl { get; set; }

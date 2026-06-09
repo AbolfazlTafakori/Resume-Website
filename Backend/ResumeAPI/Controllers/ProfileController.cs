@@ -31,10 +31,12 @@ public class ProfileController(AppDbContext db) : ControllerBase
         p.Title          = dto.Title;
         p.Location       = dto.Location;
         p.Bio            = dto.Bio;
-        if (dto.HomeAvatar         != null) p.HomeAvatar         = dto.HomeAvatar;
-        if (dto.AboutAvatar        != null) p.AboutAvatar        = dto.AboutAvatar;
-        if (dto.ContactAvatar      != null) p.ContactAvatar      = dto.ContactAvatar;
-        if (dto.AvatarBorderColor  != null) p.AvatarBorderColor  = dto.AvatarBorderColor;
+        if (dto.HomeAvatar                != null) p.HomeAvatar                = dto.HomeAvatar;
+        if (dto.AboutAvatar               != null) p.AboutAvatar               = dto.AboutAvatar;
+        if (dto.ContactAvatar             != null) p.ContactAvatar             = dto.ContactAvatar;
+        if (dto.HomeAvatarBorderColor     != null) p.HomeAvatarBorderColor     = dto.HomeAvatarBorderColor;
+        if (dto.AboutAvatarBorderColor    != null) p.AboutAvatarBorderColor    = dto.AboutAvatarBorderColor;
+        if (dto.ContactAvatarBorderColor  != null) p.ContactAvatarBorderColor  = dto.ContactAvatarBorderColor;
 
         if (isNew) db.Profiles.Add(p);
         await db.SaveChangesAsync();

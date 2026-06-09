@@ -7,10 +7,12 @@ public record ProfileDto(
     string HeroTitle, string HeroSubtitle,
     string Name, string Title, string Location, string Bio,
     string? HomeAvatar, string? AboutAvatar, string? ContactAvatar,
-    string? AvatarBorderColor);
+    string? HomeAvatarBorderColor,
+    string? AboutAvatarBorderColor,
+    string? ContactAvatarBorderColor);
 
 public record SkillDto(string Name, string? IconPath);
-public record ProjectDto(string Name, string? ImagePath, string? ViewUrl, string? GithubUrl);
+public record ProjectDto(string Name, string? Overview, string? ImagePath, string? ViewUrl, string? GithubUrl);
 public record EducationDto(string Period, string Description);
 public record ExperienceDto(string Company, string Role, string Period, List<string> Bullets);
 public record SocialItemDto(string Name, string IconPath, string Url);

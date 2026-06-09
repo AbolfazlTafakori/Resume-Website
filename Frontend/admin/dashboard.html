@@ -17,79 +17,82 @@
         <span>Admin Panel</span>
     </div>
     <ul class="sidebar-nav">
-        <li>
-            <a href="#" class="active" data-section="profile">
-                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-                Profile
-            </a>
+
+        <!-- ── 🏠 Home ── -->
+        <li class="nav-section-label open" data-group="home">🏠 Home <i class="nav-arrow">▶</i></li>
+        <li class="nav-group-items open" id="group-home">
+            <ul>
+                <li><a href="#" class="active" data-section="home-hero">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                    Hero & Avatar
+                </a></li>
+                <li><a href="#" data-section="skills">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                    Skills
+                </a></li>
+            </ul>
         </li>
-        <li>
-            <a href="#" data-section="skills">
-                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-                Skills
-            </a>
+
+        <!-- ── 👤 About ── -->
+        <li class="nav-section-label" data-group="about">👤 About <i class="nav-arrow">▶</i></li>
+        <li class="nav-group-items" id="group-about">
+            <ul>
+                <li><a href="#" data-section="about-identity">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M15 8h2M15 12h2M7 16h10"/></svg>
+                    Identity
+                </a></li>
+                <li><a href="#" data-section="about">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-7 10 7M5 10v7a1 1 0 001 1h3v-4h6v4h3a1 1 0 001-1v-7"/></svg>
+                    Education
+                </a></li>
+                <li><a href="#" data-section="experience">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+                    Experience
+                </a></li>
+            </ul>
         </li>
-        <li>
-            <a href="#" data-section="projects">
-                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-                Projects
-            </a>
+
+        <!-- ── 💼 Portfolio ── -->
+        <li class="nav-section-label" data-group="portfolio">💼 Portfolio <i class="nav-arrow">▶</i></li>
+        <li class="nav-group-items" id="group-portfolio">
+            <ul>
+                <li><a href="#" data-section="projects">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                    Projects
+                </a></li>
+            </ul>
         </li>
-        <li>
-            <a href="#" data-section="about">
-                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-                About & Education
-            </a>
+
+        <!-- ── 📞 Contact ── -->
+        <li class="nav-section-label" data-group="contact">📞 Contact <i class="nav-arrow">▶</i></li>
+        <li class="nav-group-items" id="group-contact">
+            <ul>
+                <li><a href="#" data-section="contact-info">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                    Contact Info
+                </a></li>
+                <li><a href="#" data-section="socials">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                    Social Links
+                </a></li>
+            </ul>
         </li>
-        <li>
-            <a href="#" data-section="experience">
-                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
-                Experience
-            </a>
+
+        <!-- ── ⚙️ General ── -->
+        <li class="nav-section-label" data-group="general">⚙️ General <i class="nav-arrow">▶</i></li>
+        <li class="nav-group-items" id="group-general">
+            <ul>
+                <li><a href="#" data-section="texts-nav">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+                    Nav / Header
+                </a></li>
+                <li><a href="#" data-section="password">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                    Change Password
+                </a></li>
+            </ul>
         </li>
-        <li>
-            <a href="#" data-section="socials">
-                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-                Social Links
-            </a>
-        </li>
-        <li>
-            <a href="#" data-section="password">
-                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                Change Password
-            </a>
-        </li>
-        <li style="margin-top:12px;padding:0 12px;font-size:10px;letter-spacing:1px;opacity:0.45;text-transform:uppercase;">Page Texts</li>
-        <li>
-            <a href="#" data-section="texts-nav">
-                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
-                Nav / Header
-            </a>
-        </li>
-        <li>
-            <a href="#" data-section="texts-home">
-                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                Home Texts
-            </a>
-        </li>
-        <li>
-            <a href="#" data-section="texts-about">
-                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
-                About Texts
-            </a>
-        </li>
-        <li>
-            <a href="#" data-section="texts-portfolio">
-                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-                Portfolio Texts
-            </a>
-        </li>
-        <li>
-            <a href="#" data-section="texts-contact">
-                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.61 1h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                Contact Texts
-            </a>
-        </li>
+
     </ul>
     <div class="sidebar-footer">
         <button class="btn-logout" id="logout-btn">Sign Out</button>
@@ -99,15 +102,40 @@
 <!-- MAIN -->
 <div class="main-content">
 
-    <!-- ===== PROFILE ===== -->
-    <div id="section-profile" class="section-view">
+    <!-- ===== HOME — HERO & AVATAR ===== -->
+    <div id="section-home-hero" class="section-view">
         <div class="page-header">
-            <h1>Profile</h1>
-            <p>Edit your personal info shown across the site</p>
+            <h1>🏠 Hero & Avatar</h1>
+            <p>Edit the hero section and avatar shown on the Home page</p>
         </div>
-
         <div class="section-card">
-            <h2>Hero (Home Page)</h2>
+            <h2>Home Page Avatar</h2>
+            <div class="form-group">
+                <div class="upload-group">
+                    <img id="preview-home-avatar" class="avatar-preview" src="" alt="">
+                    <div>
+                        <input type="file" id="file-home-avatar" accept="image/*" style="display:none">
+                        <button class="btn-upload" onclick="document.getElementById('file-home-avatar').click()">Upload Image</button>
+                        <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">Recommended: 400×400 px</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row" style="margin-top:16px;">
+                <div class="form-group">
+                    <label>Avatar Border Color</label>
+                    <div style="display:flex;align-items:center;gap:14px;margin-top:6px;">
+                        <input type="color" id="homeAvatarBorderColor" value="#5b8dee"
+                               style="width:48px;height:38px;border:none;background:none;cursor:pointer;padding:0;">
+                        <input type="text" class="form-control" id="homeAvatarBorderColorHex" placeholder="#5b8dee"
+                               style="max-width:140px;" value="#5b8dee">
+                        <button class="btn-upload" onclick="document.getElementById('homeAvatarBorderColor').value='#000000';document.getElementById('homeAvatarBorderColorHex').value='none';">No Border</button>
+                    </div>
+                    <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">Type <code>none</code> to remove border</div>
+                </div>
+            </div>
+        </div>
+        <div class="section-card">
+            <h2>Hero Text</h2>
             <div class="form-row">
                 <div class="form-group">
                     <label>Hero Title</label>
@@ -115,24 +143,54 @@
                 </div>
                 <div class="form-group">
                     <label>Hero Subtitle</label>
-                    <input type="text" class="form-control" id="heroSubtitle" placeholder="Hi, I'm ...">
+                    <input type="text" class="form-control" id="heroSubtitle" placeholder="Hi, I'm Mrnobudi...">
                 </div>
             </div>
+        </div>
+        <div class="section-card">
+            <h2>Page Texts</h2>
             <div class="form-group">
-                <label>Home Page Avatar</label>
+                <label>Skills Section Title</label>
+                <input type="text" class="form-control" id="txt-homeSkillsTitle" placeholder="My Skills">
+            </div>
+            <div style="margin-top:8px;"><button class="btn-upload" onclick="saveTexts()">Save Texts</button></div>
+        </div>
+    </div>
+
+    <!-- ===== ABOUT — IDENTITY ===== -->
+    <div id="section-about-identity" class="section-view" style="display:none">
+        <div class="page-header">
+            <h1>👤 Identity</h1>
+            <p>Edit your personal info shown on the About and Contact pages</p>
+        </div>
+        <div class="section-card">
+            <h2>About Page Avatar</h2>
+            <div class="form-group">
                 <div class="upload-group">
-                    <img id="preview-home-avatar" class="avatar-preview" src="" alt="">
+                    <img id="preview-about-avatar" class="avatar-preview" src="" alt="">
                     <div>
-                        <input type="file" id="file-home-avatar" accept="image/*" style="display:none">
-                        <button class="btn-upload" onclick="document.getElementById('file-home-avatar').click()">Upload Image</button>
-                        <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">Recommended: 400Ã—400 px</div>
+                        <input type="file" id="file-about-avatar" accept="image/*" style="display:none">
+                        <button class="btn-upload" onclick="document.getElementById('file-about-avatar').click()">Upload Image</button>
+                        <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">Recommended: 400×400 px</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row" style="margin-top:16px;">
+                <div class="form-group">
+                    <label>Avatar Border Color</label>
+                    <div style="display:flex;align-items:center;gap:14px;margin-top:6px;">
+                        <input type="color" id="aboutAvatarBorderColor" value="#5b8dee"
+                               style="width:48px;height:38px;border:none;background:none;cursor:pointer;padding:0;">
+                        <input type="text" class="form-control" id="aboutAvatarBorderColorHex" placeholder="#5b8dee"
+                               style="max-width:140px;" value="#5b8dee">
+                        <button class="btn-upload" onclick="document.getElementById('aboutAvatarBorderColor').value='#000000';document.getElementById('aboutAvatarBorderColorHex').value='none';"
+                                title="Remove border">No Border</button>
                     </div>
                 </div>
             </div>
         </div>
-
         <div class="section-card">
-            <h2>Identity (About & Contact)</h2>
+            <h2>Personal Info</h2>
             <div class="form-row">
                 <div class="form-group">
                     <label>Display Name</label>
@@ -146,55 +204,77 @@
             <div class="form-row">
                 <div class="form-group">
                     <label>Location</label>
-                    <input type="text" class="form-control" id="profileLocation" placeholder="USA, Dallas">
+                    <input type="text" class="form-control" id="profileLocation" placeholder="Iran">
                 </div>
             </div>
             <div class="form-row single">
                 <div class="form-group">
-                    <label>Bio (About page description)</label>
-                    <textarea class="form-control" id="profileBio" placeholder="Write about yourself..."></textarea>
+                    <label>Bio</label>
+                    <textarea class="form-control" id="profileBio" placeholder="Chief Technology Officer with experience in leading innovative teams..."></textarea>
+                </div>
+            </div>
+        </div>
+        <div class="section-card">
+            <h2>Page Texts</h2>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Page Title</label>
+                    <input type="text" class="form-control" id="txt-aboutPageTitle" placeholder="About me">
+                </div>
+                <div class="form-group">
+                    <label>Education Header</label>
+                    <input type="text" class="form-control" id="txt-aboutEducationHeader" placeholder="Education">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label>About Page Avatar</label>
-                    <div class="upload-group">
-                        <img id="preview-about-avatar" class="avatar-preview" src="" alt="">
-                        <div>
-                            <input type="file" id="file-about-avatar" accept="image/*" style="display:none">
-                            <button class="btn-upload" onclick="document.getElementById('file-about-avatar').click()">Upload Image</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Contact Page Avatar</label>
-                    <div class="upload-group">
-                        <img id="preview-contact-avatar" class="avatar-preview" src="" alt="">
-                        <div>
-                            <input type="file" id="file-contact-avatar" accept="image/*" style="display:none">
-                            <button class="btn-upload" onclick="document.getElementById('file-contact-avatar').click()">Upload Image</button>
-                        </div>
-                    </div>
+                    <label>Experience Header</label>
+                    <input type="text" class="form-control" id="txt-aboutExperienceHeader" placeholder="Experience">
                 </div>
             </div>
+            <div style="margin-top:8px;"><button class="btn-upload" onclick="saveTexts()">Save Texts</button></div>
+        </div>
+    </div>
 
-            <!-- Avatar Border Color -->
-            <div class="form-row">
+    <!-- ===== CONTACT — CONTACT INFO ===== -->
+    <div id="section-contact-info" class="section-view" style="display:none">
+        <div class="page-header">
+            <h1>📞 Contact Info</h1>
+            <p>Edit the avatar shown on the Contact page</p>
+        </div>
+        <div class="section-card">
+            <h2>Contact Page Avatar</h2>
+            <div class="form-group">
+                <div class="upload-group">
+                    <img id="preview-contact-avatar" class="avatar-preview" src="" alt="">
+                    <div>
+                        <input type="file" id="file-contact-avatar" accept="image/*" style="display:none">
+                        <button class="btn-upload" onclick="document.getElementById('file-contact-avatar').click()">Upload Image</button>
+                        <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">Recommended: 400×400 px</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row" style="margin-top:16px;">
                 <div class="form-group">
                     <label>Avatar Border Color</label>
                     <div style="display:flex;align-items:center;gap:14px;margin-top:6px;">
-                        <input type="color" id="avatarBorderColor" value="#5b8dee"
+                        <input type="color" id="contactAvatarBorderColor" value="#5b8dee"
                                style="width:48px;height:38px;border:none;background:none;cursor:pointer;padding:0;">
-                        <input type="text" class="form-control" id="avatarBorderColorHex" placeholder="#5b8dee"
+                        <input type="text" class="form-control" id="contactAvatarBorderColorHex" placeholder="#5b8dee"
                                style="max-width:140px;" value="#5b8dee">
-                        <button class="btn-upload" onclick="document.getElementById('avatarBorderColor').value='#000000';document.getElementById('avatarBorderColorHex').value='none';"
-                                title="Remove border">No Border</button>
+                        <button class="btn-upload" onclick="document.getElementById('contactAvatarBorderColor').value='#000000';document.getElementById('contactAvatarBorderColorHex').value='none';">No Border</button>
                     </div>
-                    <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">
-                        Type <code>none</code> to remove border completely
-                    </div>
+                    <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">Type <code>none</code> to remove border</div>
                 </div>
             </div>
+        </div>
+        <div class="section-card">
+            <h2>Page Texts</h2>
+            <div class="form-group">
+                <label>Page Title</label>
+                <input type="text" class="form-control" id="txt-contactPageTitle" placeholder="Contact">
+            </div>
+            <div style="margin-top:8px;"><button class="btn-upload" onclick="saveTexts()">Save Texts</button></div>
         </div>
     </div>
 
@@ -217,8 +297,16 @@
     <!-- ===== PROJECTS ===== -->
     <div id="section-projects" class="section-view" style="display:none">
         <div class="page-header">
-            <h1>Projects</h1>
+            <h1>💼 Projects</h1>
             <p>Add or edit your portfolio projects</p>
+        </div>
+        <div class="section-card">
+            <h2>Page Texts</h2>
+            <div class="form-group">
+                <label>Page Title</label>
+                <input type="text" class="form-control" id="txt-portfolioPageTitle" placeholder="Portfolio">
+            </div>
+            <div style="margin-top:8px;"><button class="btn-upload" onclick="saveTexts()">Save Texts</button></div>
         </div>
         <div class="section-card">
             <h2>Project List</h2>
@@ -311,66 +399,35 @@
         <div class="section-card">
             <h2>Navigation Labels</h2>
             <div class="form-row">
-                <div class="form-group"><label>Logo / Brand Name</label><input type="text" class="form-control" id="txt-navLogo" placeholder="Mrnobudi"></div>
-                <div class="form-group"><label>Home Link</label><input type="text" class="form-control" id="txt-navHome" placeholder="Home"></div>
+                <div class="form-group">
+                    <label>Logo / Brand Name</label>
+                    <input type="text" class="form-control" id="txt-navLogo" placeholder="Mrnobudi">
+                </div>
+                <div class="form-group">
+                    <label>Home Link</label>
+                    <input type="text" class="form-control" id="txt-navHome" placeholder="Home">
+                </div>
             </div>
             <div class="form-row">
-                <div class="form-group"><label>About Link</label><input type="text" class="form-control" id="txt-navAbout" placeholder="About"></div>
-                <div class="form-group"><label>Portfolio Link</label><input type="text" class="form-control" id="txt-navPortfolio" placeholder="Portfolio"></div>
+                <div class="form-group">
+                    <label>About Link</label>
+                    <input type="text" class="form-control" id="txt-navAbout" placeholder="About">
+                </div>
+                <div class="form-group">
+                    <label>Portfolio Link</label>
+                    <input type="text" class="form-control" id="txt-navPortfolio" placeholder="Portfolio">
+                </div>
             </div>
             <div class="form-row">
-                <div class="form-group"><label>Contact Button</label><input type="text" class="form-control" id="txt-navContact" placeholder="Let's talk"></div>
+                <div class="form-group">
+                    <label>Contact Button</label>
+                    <input type="text" class="form-control" id="txt-navContact" placeholder="Let's talk">
+                </div>
             </div>
         </div>
         <div style="margin-top:8px;"><button class="btn-save-main" onclick="saveTexts()">Save Nav Texts</button></div>
     </div>
 
-    <!-- ===== HOME TEXTS ===== -->
-    <div id="section-texts-home" class="section-view" style="display:none">
-        <div class="page-header"><h1>Home Page Texts</h1><p>Edit text elements on the Home page</p></div>
-        <div class="section-card">
-            <h2>Skills Section</h2>
-            <div class="form-group"><label>Skills Section Title</label><input type="text" class="form-control" id="txt-homeSkillsTitle" placeholder="Skills"></div>
-        </div>
-        <div style="margin-top:8px;"><button class="btn-save-main" onclick="saveTexts()">Save Home Texts</button></div>
-    </div>
-
-    <!-- ===== ABOUT TEXTS ===== -->
-    <div id="section-texts-about" class="section-view" style="display:none">
-        <div class="page-header"><h1>About Page Texts</h1><p>Edit text elements on the About page</p></div>
-        <div class="section-card">
-            <h2>Page Header</h2>
-            <div class="form-group"><label>Page Title</label><input type="text" class="form-control" id="txt-aboutPageTitle" placeholder="About me"></div>
-        </div>
-        <div class="section-card">
-            <h2>Section Headers</h2>
-            <div class="form-row">
-                <div class="form-group"><label>Education Header</label><input type="text" class="form-control" id="txt-aboutEducationHeader" placeholder="Education"></div>
-                <div class="form-group"><label>Experience Header</label><input type="text" class="form-control" id="txt-aboutExperienceHeader" placeholder="Experience"></div>
-            </div>
-        </div>
-        <div style="margin-top:8px;"><button class="btn-save-main" onclick="saveTexts()">Save About Texts</button></div>
-    </div>
-
-    <!-- ===== PORTFOLIO TEXTS ===== -->
-    <div id="section-texts-portfolio" class="section-view" style="display:none">
-        <div class="page-header"><h1>Portfolio Page Texts</h1><p>Edit text elements on the Portfolio page</p></div>
-        <div class="section-card">
-            <h2>Page Header</h2>
-            <div class="form-group"><label>Page Title</label><input type="text" class="form-control" id="txt-portfolioPageTitle" placeholder="Portfolio"></div>
-        </div>
-        <div style="margin-top:8px;"><button class="btn-save-main" onclick="saveTexts()">Save Portfolio Texts</button></div>
-    </div>
-
-    <!-- ===== CONTACT TEXTS ===== -->
-    <div id="section-texts-contact" class="section-view" style="display:none">
-        <div class="page-header"><h1>Contact Page Texts</h1><p>Edit text elements on the Contact page</p></div>
-        <div class="section-card">
-            <h2>Page Header</h2>
-            <div class="form-group"><label>Page Title</label><input type="text" class="form-control" id="txt-contactPageTitle" placeholder="Contact"></div>
-        </div>
-        <div style="margin-top:8px;"><button class="btn-save-main" onclick="saveTexts()">Save Contact Texts</button></div>
-    </div>
 
 </div><!-- /main-content -->
 
@@ -418,6 +475,10 @@
         <div class="form-group">
             <label>Project Name</label>
             <input type="text" class="form-control" id="project-name" placeholder="My Awesome Project">
+        </div>
+        <div class="form-group">
+            <label>Overview</label>
+            <textarea class="form-control" id="project-overview" placeholder="Short description of the project..." style="min-height:80px"></textarea>
         </div>
         <div class="form-row">
             <div class="form-group">
@@ -545,17 +606,31 @@
 <script src="../js/config.js"></script>
 <script src="../js/admin.js"></script>
 <script>
-    // Sync color picker ↔ hex input
-    const colorPicker = document.getElementById('avatarBorderColor');
-    const colorHex    = document.getElementById('avatarBorderColorHex');
-    if (colorPicker && colorHex) {
-        colorPicker.addEventListener('input', () => { colorHex.value = colorPicker.value; });
-        colorHex.addEventListener('input', () => {
-            const v = colorHex.value.trim();
+    // ── Accordion sidebar ──────────────────────────────────────
+    document.querySelectorAll('.nav-section-label[data-group]').forEach(label => {
+        label.addEventListener('click', () => {
+            const group = document.getElementById('group-' + label.dataset.group);
+            const isOpen = group.classList.contains('open');
+            group.classList.toggle('open', !isOpen);
+            label.classList.toggle('open', !isOpen);
+        });
+    });
+
+    // ── Sync color picker ↔ hex for each avatar ───────────────
+    function syncColorPair(pickerId, hexId) {
+        const picker = document.getElementById(pickerId);
+        const hex    = document.getElementById(hexId);
+        if (!picker || !hex) return;
+        picker.addEventListener('input', () => { hex.value = picker.value; });
+        hex.addEventListener('input', () => {
+            const v = hex.value.trim();
             if (v === 'none' || v === 'transparent') return;
-            if (/^#[0-9a-fA-F]{6}$/.test(v)) colorPicker.value = v;
+            if (/^#[0-9a-fA-F]{6}$/.test(v)) picker.value = v;
         });
     }
+    syncColorPair('homeAvatarBorderColor',    'homeAvatarBorderColorHex');
+    syncColorPair('aboutAvatarBorderColor',   'aboutAvatarBorderColorHex');
+    syncColorPair('contactAvatarBorderColor', 'contactAvatarBorderColorHex');
 </script>
 </body>
 </html>

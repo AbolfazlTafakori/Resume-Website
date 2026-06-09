@@ -68,14 +68,19 @@ document.getElementById('logout-btn').addEventListener('click', () => {
 });
 
 // ---- NAV TABS ----
-const navLinks = document.querySelectorAll('.sidebar-nav a[data-section]');
-navLinks.forEach(link => {
+function activateSection(section) {
+    document.querySelectorAll('.sidebar-nav a[data-section]').forEach(l => l.classList.remove('active'));
+    const link = document.querySelector(`.sidebar-nav a[data-section="${section}"]`);
+    if (link) link.classList.add('active');
+    document.querySelectorAll('.section-view').forEach(v => v.style.display = 'none');
+    const view = document.getElementById(`section-${section}`);
+    if (view) view.style.display = 'block';
+}
+
+document.querySelectorAll('.sidebar-nav a[data-section]').forEach(link => {
     link.addEventListener('click', (e) => {
         e.preventDefault();
-        navLinks.forEach(l => l.classList.remove('active'));
-        link.classList.add('active');
-        document.querySelectorAll('.section-view').forEach(v => v.style.display = 'none');
-        document.getElementById(`section-${link.dataset.section}`).style.display = 'block';
+        activateSection(link.dataset.section);
     });
 });
 
@@ -154,13 +159,27 @@ const TEXT_FIELDS = [
     'contactPageTitle'
 ];
 
+const TEXT_DEFAULTS = {
+    navLogo:                 'Mrnobudi',
+    navHome:                 'Home',
+    navAbout:                'About',
+    navPortfolio:            'Portfolio',
+    navContact:              "Let's talk",
+    homeSkillsTitle:         'My Skills',
+    aboutPageTitle:          'About me',
+    aboutEducationHeader:    'Education',
+    aboutExperienceHeader:   'Experience',
+    portfolioPageTitle:      'Portfolio',
+    contactPageTitle:        'Contact',
+};
+
 async function loadTexts() {
     try {
         const res = await fetch(`${API}/sitetexts`, { headers: authHeaders() });
         const t = await res.json();
         TEXT_FIELDS.forEach(k => {
             const el = document.getElementById(`txt-${k}`);
-            if (el) el.value = t[k] || '';
+            if (el) el.value = t[k] || TEXT_DEFAULTS[k] || '';
         });
     } catch {}
 }
@@ -178,22 +197,30 @@ async function saveTexts() {
 }
 
 // ---- PROFILE ----
+function setColor(pickerId, hexId, value) {
+    const v = value || '#5b8dee';
+    const el = document.getElementById(pickerId);
+    const hexEl = document.getElementById(hexId);
+    if (el)    el.value    = v === 'none' ? '#000000' : v;
+    if (hexEl) hexEl.value = v;
+}
+
 async function loadProfile() {
     try {
         const res = await fetch(`${API}/profile`, { headers: authHeaders() });
         const p = await res.json();
-        document.getElementById('heroTitle').value      = p.heroTitle || '';
-        document.getElementById('heroSubtitle').value  = p.heroSubtitle || '';
-        document.getElementById('profileName').value   = p.name || '';
-        document.getElementById('profileTitle').value  = p.title || '';
-        document.getElementById('profileLocation').value = p.location || '';
-        document.getElementById('profileBio').value    = p.bio || '';
-        if (p.homeAvatar)    document.getElementById('preview-home-avatar').src    = `${API}/uploads/${p.homeAvatar}`;
-        if (p.aboutAvatar)   document.getElementById('preview-about-avatar').src   = `${API}/uploads/${p.aboutAvatar}`;
-        if (p.contactAvatar) document.getElementById('preview-contact-avatar').src = `${API}/uploads/${p.contactAvatar}`;
-        const color = p.avatarBorderColor || '#5b8dee';
-        document.getElementById('avatarBorderColor').value    = color === 'none' ? '#000000' : color;
-        document.getElementById('avatarBorderColorHex').value = color;
+        document.getElementById('heroTitle').value        = p.heroTitle    || 'Backend web developer !';
+        document.getElementById('heroSubtitle').value     = p.heroSubtitle || "Hi, I'm Mrnobudi, passionate Back end Web Developer From IRAN";
+        document.getElementById('profileName').value      = p.name         || 'Mrnobudi';
+        document.getElementById('profileTitle').value     = p.title        || 'Back-end Developer';
+        document.getElementById('profileLocation').value  = p.location     || '';
+        document.getElementById('profileBio').value       = p.bio          || 'Chief Technology Officer with experience in leading innovative teams and implementing scalable solutions.';
+        document.getElementById('preview-home-avatar').src    = p.homeAvatar    ? `${API}/uploads/${p.homeAvatar}`    : '../assets/images/HomePage/Logo.png';
+        document.getElementById('preview-about-avatar').src   = p.aboutAvatar   ? `${API}/uploads/${p.aboutAvatar}`   : '../assets/images/AboutMe/Logo.png';
+        document.getElementById('preview-contact-avatar').src = p.contactAvatar ? `${API}/uploads/${p.contactAvatar}` : '../assets/images/Contact/Logo.png';
+        setColor('homeAvatarBorderColor',    'homeAvatarBorderColorHex',    p.homeAvatarBorderColor);
+        setColor('aboutAvatarBorderColor',   'aboutAvatarBorderColorHex',   p.aboutAvatarBorderColor);
+        setColor('contactAvatarBorderColor', 'contactAvatarBorderColorHex', p.contactAvatarBorderColor || '#c9960a');
     } catch {}
 }
 
@@ -203,8 +230,8 @@ async function saveProfile() {
     const contactFile = document.getElementById('file-contact-avatar');
 
     const [homeAvatar, aboutAvatar, contactAvatar] = await Promise.all([
-        homeFile.files[0]    ? uploadFile(homeFile, document.getElementById('preview-home-avatar'))    : Promise.resolve(null),
-        aboutFile.files[0]   ? uploadFile(aboutFile, document.getElementById('preview-about-avatar'))   : Promise.resolve(null),
+        homeFile.files[0]    ? uploadFile(homeFile,    document.getElementById('preview-home-avatar'))    : Promise.resolve(null),
+        aboutFile.files[0]   ? uploadFile(aboutFile,   document.getElementById('preview-about-avatar'))   : Promise.resolve(null),
         contactFile.files[0] ? uploadFile(contactFile, document.getElementById('preview-contact-avatar')) : Promise.resolve(null)
     ]);
 
@@ -215,11 +242,13 @@ async function saveProfile() {
         title:          document.getElementById('profileTitle').value,
         location:       document.getElementById('profileLocation').value,
         bio:            document.getElementById('profileBio').value,
+        homeAvatarBorderColor:    document.getElementById('homeAvatarBorderColorHex').value.trim()    || '#5b8dee',
+        aboutAvatarBorderColor:   document.getElementById('aboutAvatarBorderColorHex').value.trim()   || '#5b8dee',
+        contactAvatarBorderColor: document.getElementById('contactAvatarBorderColorHex').value.trim() || '#5b8dee',
     };
-    if (homeAvatar)    body.homeAvatar = homeAvatar;
-    if (aboutAvatar)   body.aboutAvatar = aboutAvatar;
+    if (homeAvatar)    body.homeAvatar    = homeAvatar;
+    if (aboutAvatar)   body.aboutAvatar   = aboutAvatar;
     if (contactAvatar) body.contactAvatar = contactAvatar;
-    body.avatarBorderColor = document.getElementById('avatarBorderColorHex').value.trim() || '#5b8dee';
 
     await fetch(`${API}/profile`, { method: 'PUT', headers: authHeaders(), body: JSON.stringify(body) });
 }
@@ -357,6 +386,7 @@ document.getElementById('add-project-btn').addEventListener('click', () => {
     document.getElementById('modal-project-title').textContent = 'Add Project';
     document.getElementById('project-edit-id').value = '';
     document.getElementById('project-name').value = '';
+    document.getElementById('project-overview').value = '';
     document.getElementById('project-view').value = '';
     document.getElementById('project-github').value = '';
     document.getElementById('preview-project-img').src = '';
@@ -368,6 +398,7 @@ function editProject(id) {
     document.getElementById('modal-project-title').textContent = 'Edit Project';
     document.getElementById('project-edit-id').value = id;
     document.getElementById('project-name').value = p.name;
+    document.getElementById('project-overview').value = p.overview || '';
     document.getElementById('project-view').value = p.viewUrl || '';
     document.getElementById('project-github').value = p.githubUrl || '';
     document.getElementById('preview-project-img').src = p.imagePath ? `${API}/uploads/${p.imagePath}` : '';
@@ -383,6 +414,7 @@ document.getElementById('project-save-btn').addEventListener('click', async () =
     }
     const body = {
         name:      document.getElementById('project-name').value,
+        overview:  document.getElementById('project-overview').value,
         viewUrl:   document.getElementById('project-view').value,
         githubUrl: document.getElementById('project-github').value,
     };
@@ -714,7 +746,8 @@ document.getElementById('save-btn').addEventListener('click', async () => {
 
     try {
         const activeSection = document.querySelector('.sidebar-nav a.active')?.dataset?.section;
-        if (activeSection === 'profile')    await saveProfile();
+        const profileSections = ['home-hero', 'about-identity', 'contact-info'];
+        if (profileSections.includes(activeSection)) await saveProfile();
         if (activeSection === 'socials')    await saveSocials();
         if (activeSection === 'password')   await savePassword();
 

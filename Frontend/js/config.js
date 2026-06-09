@@ -3,6 +3,7 @@
    For local dev: set API_BASE to http://localhost:5000/api
    For production: installer sets this to /api (nginx proxy)
    ============================================ */
-const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:5000/api'
+const _h = window.location.hostname;
+const API_BASE = (_h === 'localhost' || _h === '127.0.0.1' || _h === '')
+    ? 'http://localhost:5021/api'
     : '/api';

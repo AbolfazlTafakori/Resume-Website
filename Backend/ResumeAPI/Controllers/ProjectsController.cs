@@ -13,14 +13,14 @@ public class ProjectsController(AppDbContext db) : ControllerBase
 {
     [HttpGet]
     public async Task<IActionResult> GetAll() =>
-        Ok(await db.Projects.OrderBy(p => p.Order).ToListAsync());
+        Ok(await db.Projects.OrderByDescending(p => p.Order).ToListAsync());
 
     [HttpPost]
     [Authorize]
     public async Task<IActionResult> Create([FromBody] ProjectDto dto)
     {
-        var p = new Project { Name = dto.Name, ImagePath = dto.ImagePath,
-            ViewUrl = dto.ViewUrl, GithubUrl = dto.GithubUrl,
+        var p = new Project { Name = dto.Name, Overview = dto.Overview,
+            ImagePath = dto.ImagePath, ViewUrl = dto.ViewUrl, GithubUrl = dto.GithubUrl,
             Order = await db.Projects.CountAsync() };
         db.Projects.Add(p);
         await db.SaveChangesAsync();
@@ -34,7 +34,8 @@ public class ProjectsController(AppDbContext db) : ControllerBase
         var p = await db.Projects.FindAsync(id);
         if (p == null) return NotFound();
         p.Name = dto.Name;
-        p.ViewUrl = dto.ViewUrl;
+        if (dto.Overview  != null) p.Overview  = dto.Overview;
+        p.ViewUrl   = dto.ViewUrl;
         p.GithubUrl = dto.GithubUrl;
         if (dto.ImagePath != null) p.ImagePath = dto.ImagePath;
         await db.SaveChangesAsync();

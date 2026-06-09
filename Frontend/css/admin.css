@@ -168,6 +168,37 @@ body {
 
 .sidebar-nav li a svg { flex-shrink: 0; }
 
+.nav-section-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 12px 6px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    opacity: 0.55;
+    cursor: pointer;
+    user-select: none;
+    transition: opacity 0.15s;
+}
+.nav-section-label:hover { opacity: 0.85; }
+.nav-section-label .nav-arrow {
+    font-style: normal;
+    font-size: 9px;
+    transition: transform 0.2s;
+    opacity: 0.7;
+}
+.nav-section-label.open .nav-arrow { transform: rotate(90deg); }
+
+.nav-group-items {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.25s ease;
+}
+.nav-group-items.open { max-height: 400px; }
+
 .sidebar-footer {
     padding: 16px 24px;
     border-top: 1px solid var(--border);

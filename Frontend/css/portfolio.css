@@ -40,7 +40,7 @@ body::before {
 
 .project-card {
     display: flex;
-    align-items: center;
+    align-items: stretch;
     gap: 48px;
 }
 
@@ -49,8 +49,8 @@ body::before {
 /* Image box */
 .project-img-box {
     flex-shrink: 0;
-    width: 300px;
-    height: 190px;
+    width: 340px;
+    min-height: 210px;
     background: rgba(255,255,255,0.07);
     border: 1px solid rgba(255,255,255,0.1);
     border-radius: 14px;
@@ -72,32 +72,141 @@ body::before {
 }
 
 /* Info */
-.project-info { flex: 1; }
+.project-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
 
 .project-name {
     font-family: var(--font-serif);
-    font-size: 22px;
-    font-weight: 600;
-    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 14px;
 }
+
+.project-overview {
+    font-family: var(--font-primary);
+    font-size: 14px;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 0;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.btn-see-more {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.45);
+    font-family: var(--font-primary);
+    font-size: 13px;
+    cursor: pointer;
+    padding: 6px 0 0;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.2s;
+    display: inline-block;
+}
+.btn-see-more:hover { color: rgba(255,255,255,0.85); }
+
+/* ---- OVERVIEW MODAL ---- */
+.overview-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(4px);
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+.overview-backdrop.open {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.overview-panel {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, calc(-50% + 24px));
+    width: min(560px, 92vw);
+    max-height: 70vh;
+    background: rgba(18,18,42,0.96);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+    padding: 32px 32px 28px;
+    z-index: 201;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow: hidden;
+}
+.overview-backdrop.open .overview-panel {
+    opacity: 1;
+    pointer-events: all;
+    transform: translate(-50%, -50%);
+}
+
+.overview-panel-title {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    padding-right: 32px;
+}
+
+.overview-panel-text {
+    font-family: var(--font-primary);
+    font-size: 14px;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.72);
+    overflow-y: auto;
+    flex: 1;
+}
+
+.overview-panel-close {
+    position: absolute;
+    top: 16px;
+    right: 18px;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.45);
+    font-size: 22px;
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s;
+}
+.overview-panel-close:hover { color: #fff; }
 
 .project-btns {
     display: flex;
     gap: 14px;
-    flex-wrap: wrap;
+    margin-top: 24px;
 }
 
 .btn-pill {
-    display: inline-flex;
+    flex: 1;
+    display: flex;
     align-items: center;
-    gap: 7px;
-    padding: 8px 22px;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 20px;
     border: 2px solid rgba(255,255,255,0.85);
     border-radius: 50px;
     color: var(--white);
     text-decoration: none;
     font-family: var(--font-primary);
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 500;
     transition: background 0.2s, color 0.2s, border-color 0.2s;
 }
@@ -126,5 +235,5 @@ body::before {
     .portfolio-wrap { padding-top: calc(var(--nav-height) + 20px); }
     .project-img-box { height: 160px; }
     .project-name { font-size: 18px; }
-    .btn-pill { font-size: 13px; padding: 7px 16px; }
+    .btn-pill { font-size: 14px; padding: 12px 16px; }
 }
