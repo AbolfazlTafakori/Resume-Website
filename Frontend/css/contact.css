@@ -156,6 +156,59 @@ body::before {
     transform: scale(1.08);
 }
 
+/* ---- EMAIL POPUP ---- */
+.email-popup {
+    position: fixed;
+    z-index: 500;
+    background: rgba(18,16,30,0.97);
+    border: 1px solid rgba(255,255,255,0.13);
+    border-radius: 14px;
+    padding: 16px 18px;
+    min-width: 240px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.45);
+    opacity: 0;
+    transform: translateY(6px) scale(0.97);
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    pointer-events: none;
+}
+.email-popup.show {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: all;
+}
+.email-popup-addr {
+    font-family: var(--font-body);
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 12px;
+    word-break: break-all;
+}
+.email-popup-btns {
+    display: flex;
+    gap: 8px;
+}
+.email-popup-btn {
+    flex: 1;
+    padding: 9px 0;
+    border-radius: 8px;
+    border: 1px solid rgba(255,255,255,0.18);
+    background: rgba(255,255,255,0.06);
+    color: #fff;
+    font-family: var(--font-primary);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.18s, border-color 0.18s;
+}
+.email-popup-btn:hover {
+    background: rgba(255,255,255,0.14);
+    border-color: rgba(255,255,255,0.35);
+}
+.email-popup-btn.copied {
+    border-color: #4caf50;
+    color: #4caf50;
+}
+
 /* ---- RESPONSIVE ---- */
 @media (max-width: 768px) {
     .page-title { font-size: 46px; }

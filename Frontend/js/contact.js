@@ -1,3 +1,49 @@
+/* ── Email popup state ── */
+let _emailAddr = '';
+
+function showEmailPopup(e, addr) {
+    e.preventDefault();
+    _emailAddr = addr;
+    const popup = document.getElementById('email-popup');
+    const copyBtn = document.getElementById('email-copy-btn');
+    document.getElementById('email-popup-addr').textContent = addr;
+    copyBtn.textContent = 'Copy Address';
+    copyBtn.classList.remove('copied');
+
+    /* position near click, keep inside viewport */
+    const x = Math.min(e.clientX, window.innerWidth  - 260);
+    const y = Math.min(e.clientY + 12, window.innerHeight - 120);
+    popup.style.left = x + 'px';
+    popup.style.top  = y + 'px';
+    popup.classList.add('show');
+}
+
+function closeEmailPopup() {
+    document.getElementById('email-popup').classList.remove('show');
+}
+
+function emailCopy() {
+    if (!_emailAddr) return;
+    navigator.clipboard.writeText(_emailAddr).then(() => {
+        const btn = document.getElementById('email-copy-btn');
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(closeEmailPopup, 1200);
+    });
+}
+
+function emailSend() {
+    if (!_emailAddr) return;
+    window.location.href = 'mailto:' + _emailAddr;
+    closeEmailPopup();
+}
+
+/* close on outside click */
+document.addEventListener('click', (e) => {
+    const popup = document.getElementById('email-popup');
+    if (popup && !popup.contains(e.target)) closeEmailPopup();
+});
+
 document.addEventListener('DOMContentLoaded', async () => {
     const grid = document.getElementById('social-grid');
 
@@ -35,6 +81,20 @@ document.addEventListener('DOMContentLoaded', async () => {
             const iconSrc = s.iconPath && s.iconPath.startsWith('preset:')
                 ? `../assets/images/Contact/${s.iconPath.replace('preset:','')}.png`
                 : (s.iconPath ? `${API_BASE}/uploads/${s.iconPath}` : '');
+
+            /* detect email links */
+            const isEmail = s.url && (s.url.startsWith('mailto:') || s.url.includes('@'));
+            const emailAddr = isEmail
+                ? s.url.replace('mailto:', '').trim()
+                : '';
+
+            if (isEmail) {
+                return `<a href="#" class="social-cell page-loaded"
+                    onclick="showEmailPopup(event,'${escapeHtml(emailAddr)}')">
+                    <img src="${escapeHtml(iconSrc)}" alt="${escapeHtml(s.name)}">
+                </a>`;
+            }
+
             return `<a href="${safeUrl(s.url)}" class="social-cell page-loaded" target="_blank" rel="noopener noreferrer">
                 <img src="${escapeHtml(iconSrc)}" alt="${escapeHtml(s.name)}">
             </a>`;
