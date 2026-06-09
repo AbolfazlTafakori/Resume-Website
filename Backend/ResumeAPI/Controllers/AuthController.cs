@@ -34,7 +34,9 @@ public class AuthController(AppDbContext db, IConfiguration config) : Controller
         }
 
         var user = await db.AdminUsers.FirstOrDefaultAsync(u => u.Username == req.Username);
-        if (user == null || !BCrypt.Net.BCrypt.Verify(req.Password, user.PasswordHash))
+        // Always run BCrypt to prevent username enumeration via timing
+        var hash = user?.PasswordHash ?? BCrypt.Net.BCrypt.HashPassword("__dummy__");
+        if (user == null || !BCrypt.Net.BCrypt.Verify(req.Password, hash))
         {
             _loginAttempts[ip] = (entry.Count + 1, entry.Window);
             return Unauthorized();

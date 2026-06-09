@@ -48,7 +48,7 @@ builder.Services.AddCors(opt =>
             p.WithOrigins(allowedOrigins.Split(',', StringSplitOptions.RemoveEmptyEntries));
         else
             p.AllowAnyOrigin();
-        p.AllowAnyHeader().AllowAnyMethod();
+        p.AllowAnyHeader().WithMethods("GET", "POST", "PUT", "DELETE");
     }));
 
 var app = builder.Build();

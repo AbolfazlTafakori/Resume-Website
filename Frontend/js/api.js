@@ -5,6 +5,23 @@
 
 // API_BASE is defined in config.js (loaded before this file)
 
+function escapeHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function safeUrl(url) {
+    if (!url) return '#';
+    try {
+        const p = new URL(url);
+        return ['http:', 'https:', 'mailto:'].includes(p.protocol) ? url : '#';
+    } catch { return '#'; }
+}
+
+function safeColor(color, fallback) {
+    return /^#[0-9a-fA-F]{6}$/.test(color) ? color : fallback;
+}
+
 async function apiFetch(endpoint) {
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), 3000);

@@ -45,15 +45,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <div class="project-img-box">${imgContent}</div>
                 <div class="project-info">
                     <div>
-                        <h3 class="project-name">${p.name}</h3>
+                        <h3 class="project-name">${escapeHtml(p.name)}</h3>
                         ${p.overview ? `
-                        <p class="project-overview">${p.overview}</p>
-                        <button class="btn-see-more" data-name="${p.name.replace(/"/g,'&quot;')}" data-ov="${p.overview.replace(/"/g,'&quot;')}" onclick="openOverview(this)">See more</button>
+                        <p class="project-overview">${escapeHtml(p.overview)}</p>
+                        <button class="btn-see-more" data-name="${escapeHtml(p.name)}" data-ov="${escapeHtml(p.overview)}" onclick="openOverview(this)">See more</button>
                         ` : ''}
                     </div>
                     <div class="project-btns">
-                        ${p.viewUrl   ? `<a href="${p.viewUrl}"   target="_blank" class="btn-pill">View</a>` : ''}
-                        ${p.githubUrl ? `<a href="${p.githubUrl}" target="_blank" class="btn-pill">${GITHUB_ICON} Git Code</a>` : ''}
+                        ${p.viewUrl   ? `<a href="${safeUrl(p.viewUrl)}"   target="_blank" rel="noopener noreferrer" class="btn-pill">View</a>` : ''}
+                        ${p.githubUrl ? `<a href="${safeUrl(p.githubUrl)}" target="_blank" rel="noopener noreferrer" class="btn-pill">${GITHUB_ICON} Git Code</a>` : ''}
                     </div>
                 </div>
             </div>`;

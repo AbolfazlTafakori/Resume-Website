@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const profile = await apiFetch('/profile');
     if (profile) {
-        if (profile.heroTitle && titleEl)       titleEl.innerHTML      = profile.heroTitle;
+        if (profile.heroTitle && titleEl)       titleEl.textContent    = profile.heroTitle;
         if (profile.heroSubtitle && subtitleEl) subtitleEl.textContent = profile.heroSubtitle;
 
         const avatarEl = document.getElementById('hero-avatar');
@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const homeAvatarEl = document.querySelector('.hero-avatar img');
         if (homeAvatarEl) {
-            const color = profile.homeAvatarBorderColor || '#5b8dee';
+            const color = safeColor(profile.homeAvatarBorderColor, '#5b8dee');
             if (color === 'none' || color === 'transparent') {
                 homeAvatarEl.style.border = 'none';
                 homeAvatarEl.style.boxShadow = 'none';

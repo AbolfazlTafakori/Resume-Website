@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const avatarEl = document.querySelector('.profile-avatar');
         if (avatarEl) {
-            const color = profile.aboutAvatarBorderColor || '#5b8dee';
+            const color = safeColor(profile.aboutAvatarBorderColor, '#5b8dee');
             if (color === 'none' || color === 'transparent') {
                 avatarEl.style.border = 'none';
                 avatarEl.style.boxShadow = 'none';
@@ -36,8 +36,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (education && education.length) {
         eduList.innerHTML = education.map(e => `
             <li class="page-loaded">
-                <strong>${e.period}</strong>
-                <span>${e.description}</span>
+                <strong>${escapeHtml(e.period)}</strong>
+                <span>${escapeHtml(e.description)}</span>
             </li>
         `).join('');
     } else if (eduList) {
@@ -48,10 +48,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (experience && experience.length) {
         expList.innerHTML = experience.map(e => `
             <div class="exp-item page-loaded">
-                <div class="exp-company">${e.company}</div>
-                <div class="exp-role-wrap"><div class="exp-role">${e.role} (${e.period})</div></div>
+                <div class="exp-company">${escapeHtml(e.company)}</div>
+                <div class="exp-role-wrap"><div class="exp-role">${escapeHtml(e.role)} (${escapeHtml(e.period)})</div></div>
                 <ul class="exp-bullets">
-                    ${e.bullets.map(b => `<li>${b}</li>`).join('')}
+                    ${e.bullets.map(b => `<li>${escapeHtml(b)}</li>`).join('')}
                 </ul>
             </div>
         `).join('');

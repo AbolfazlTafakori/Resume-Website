@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (profile.contactAvatar) swapAvatar(document.getElementById('contact-avatar'), `${API_BASE}/uploads/${profile.contactAvatar}`);
         const contactAvatarEl = document.querySelector('.profile-avatar');
         if (contactAvatarEl) {
-            const color = profile.contactAvatarBorderColor || '#c9960a';
+            const color = safeColor(profile.contactAvatarBorderColor, '#c9960a');
             if (color === 'none' || color === 'transparent') {
                 contactAvatarEl.style.border = 'none';
                 contactAvatarEl.style.boxShadow = 'none';
@@ -35,8 +35,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             const iconSrc = s.iconPath && s.iconPath.startsWith('preset:')
                 ? `../assets/images/Contact/${s.iconPath.replace('preset:','')}.png`
                 : (s.iconPath ? `${API_BASE}/uploads/${s.iconPath}` : '');
-            return `<a href="${s.url || '#'}" class="social-cell page-loaded" target="_blank" rel="noopener">
-                <img src="${iconSrc}" alt="${s.name}">
+            return `<a href="${safeUrl(s.url)}" class="social-cell page-loaded" target="_blank" rel="noopener noreferrer">
+                <img src="${escapeHtml(iconSrc)}" alt="${escapeHtml(s.name)}">
             </a>`;
         }).join('');
     } else if (grid) {
