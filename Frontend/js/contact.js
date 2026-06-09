@@ -11,7 +11,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (profile.name)          document.getElementById('contact-name').textContent     = profile.name;
         if (profile.title)         document.getElementById('contact-role').textContent     = profile.title;
         if (profile.location)      document.getElementById('contact-location').textContent = profile.location;
-        if (profile.contactAvatar) document.getElementById('contact-avatar').src           = `${API_BASE}/uploads/${profile.contactAvatar}`;
+        if (profile.contactAvatar) document.getElementById('contact-avatar').src = `${API_BASE}/uploads/${profile.contactAvatar}`;
+        const contactAvatarEl = document.querySelector('.profile-avatar');
+        if (contactAvatarEl) {
+            const color = profile.contactAvatarBorderColor || '#c9960a';
+            if (color === 'none' || color === 'transparent') {
+                contactAvatarEl.style.border = 'none';
+                contactAvatarEl.style.boxShadow = 'none';
+            } else {
+                contactAvatarEl.style.borderColor = color;
+                contactAvatarEl.style.boxShadow = `0 0 0 6px ${color}30, 0 0 36px ${color}55`;
+            }
+        }
     }
 
     const socials = await apiFetch('/socials');

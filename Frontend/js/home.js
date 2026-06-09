@@ -18,7 +18,18 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (profile) {
         if (profile.heroTitle && titleEl)       titleEl.innerHTML      = profile.heroTitle;
         if (profile.heroSubtitle && subtitleEl) subtitleEl.textContent = profile.heroSubtitle;
-        if (profile.homeAvatar)                 document.getElementById('hero-avatar').src = `${API_BASE}/uploads/${profile.homeAvatar}`;
+        if (profile.homeAvatar) document.getElementById('hero-avatar').src = `${API_BASE}/uploads/${profile.homeAvatar}`;
+        const homeAvatarEl = document.querySelector('.hero-avatar img');
+        if (homeAvatarEl) {
+            const color = profile.homeAvatarBorderColor || '#5b8dee';
+            if (color === 'none' || color === 'transparent') {
+                homeAvatarEl.style.border = 'none';
+                homeAvatarEl.style.boxShadow = 'none';
+            } else {
+                homeAvatarEl.style.borderColor = color;
+                homeAvatarEl.style.boxShadow = `0 0 0 6px ${color}30, 0 0 36px ${color}55`;
+            }
+        }
     }
 
     const skills = await apiFetch('/skills');

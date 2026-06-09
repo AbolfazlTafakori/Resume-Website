@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const avatarEl = document.querySelector('.profile-avatar');
         if (avatarEl) {
-            const color = profile.avatarBorderColor || '#5b8dee';
+            const color = profile.aboutAvatarBorderColor || '#5b8dee';
             if (color === 'none' || color === 'transparent') {
                 avatarEl.style.border = 'none';
                 avatarEl.style.boxShadow = 'none';
