@@ -13,7 +13,7 @@ body::before {
     content: '';
     position: fixed;
     inset: 0;
-    background-image: url('../assets/images/BackGround/PortfolioBack.png');
+    background-image: url('../assets/images/BackGround/PortfolioBack.jpg');
     background-size: cover;
     background-position: center top;
     opacity: 0.82;

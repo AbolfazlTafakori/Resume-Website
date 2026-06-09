@@ -13,7 +13,7 @@ public class ProjectsController(AppDbContext db) : ControllerBase
 {
     [HttpGet]
     public async Task<IActionResult> GetAll() =>
-        Ok(await db.Projects.OrderByDescending(p => p.Order).ToListAsync());
+        Ok(await db.Projects.OrderByDescending(p => p.Id).ToListAsync());
 
     [HttpPost]
     [Authorize]
