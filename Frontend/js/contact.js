@@ -1,18 +1,20 @@
-/* ── Email popup state ── */
+/* ── Email popup ── */
 let _emailAddr = '';
+let _popupJustOpened = false;
 
 function showEmailPopup(e, addr) {
     e.preventDefault();
     _emailAddr = addr;
-    const popup = document.getElementById('email-popup');
+    _popupJustOpened = true;
+
+    const popup  = document.getElementById('email-popup');
     const copyBtn = document.getElementById('email-copy-btn');
     document.getElementById('email-popup-addr').textContent = addr;
     copyBtn.textContent = 'Copy Address';
     copyBtn.classList.remove('copied');
 
-    /* position near click, keep inside viewport */
     const x = Math.min(e.clientX, window.innerWidth  - 260);
-    const y = Math.min(e.clientY + 12, window.innerHeight - 120);
+    const y = Math.min(e.clientY + 14, window.innerHeight - 120);
     popup.style.left = x + 'px';
     popup.style.top  = y + 'px';
     popup.classList.add('show');
@@ -28,7 +30,7 @@ function emailCopy() {
         const btn = document.getElementById('email-copy-btn');
         btn.textContent = 'Copied!';
         btn.classList.add('copied');
-        setTimeout(closeEmailPopup, 1200);
+        setTimeout(closeEmailPopup, 1000);
     });
 }
 
@@ -38,8 +40,8 @@ function emailSend() {
     closeEmailPopup();
 }
 
-/* close on outside click */
-document.addEventListener('click', (e) => {
+document.addEventListener('click', function(e) {
+    if (_popupJustOpened) { _popupJustOpened = false; return; }
     const popup = document.getElementById('email-popup');
     if (popup && !popup.contains(e.target)) closeEmailPopup();
 });
