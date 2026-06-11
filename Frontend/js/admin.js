@@ -129,15 +129,27 @@ async function uploadFile(fileInput, previewEl) {
 
     const form = new FormData();
     form.append('file', file);
-    try {
-        const res = await fetch(`${API}/upload`, {
-            method: 'POST',
-            headers: { 'Authorization': `Bearer ${localStorage.getItem('admin_token')}` },
-            body: form
-        });
-        const data = await res.json();
-        return data.filename;
-    } catch { return null; }
+
+    // NOTE: do NOT swallow errors here. A failed upload must surface so the
+    // caller can stop and show the real reason instead of silently saving null.
+    const res = await fetch(`${API}/upload`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('admin_token')}` },
+        body: form
+    });
+    if (res.status === 401) {
+        localStorage.removeItem('admin_token');
+        window.location.href = 'login.html';
+        throw new Error('Session expired — please log in again');
+    }
+    if (!res.ok) {
+        let detail = '';
+        try { detail = await res.text(); } catch {}
+        throw new Error(`Image upload failed (HTTP ${res.status})${detail ? ': ' + detail : ''}`);
+    }
+    const data = await res.json();
+    if (!data || !data.filename) throw new Error('Upload returned no filename');
+    return data.filename;
 }
 
 // Preview on file select
@@ -263,7 +275,22 @@ async function saveProfile() {
     if (aboutAvatar)   body.aboutAvatar   = aboutAvatar;
     if (contactAvatar) body.contactAvatar = contactAvatar;
 
-    await fetch(`${API}/profile`, { method: 'PUT', headers: authHeaders(), body: JSON.stringify(body) });
+    const res = await fetch(`${API}/profile`, { method: 'PUT', headers: authHeaders(), body: JSON.stringify(body) });
+    if (res.status === 401) {
+        localStorage.removeItem('admin_token');
+        window.location.href = 'login.html';
+        throw new Error('Session expired — please log in again');
+    }
+    if (!res.ok) {
+        let detail = '';
+        try { detail = await res.text(); } catch {}
+        throw new Error(`Profile save failed (HTTP ${res.status})${detail ? ': ' + detail : ''}`);
+    }
+
+    // Clear the file inputs so a re-save doesn't re-upload the same images
+    document.getElementById('file-home-avatar').value    = '';
+    document.getElementById('file-about-avatar').value   = '';
+    document.getElementById('file-contact-avatar').value = '';
 }
 
 // ---- SKILLS ----

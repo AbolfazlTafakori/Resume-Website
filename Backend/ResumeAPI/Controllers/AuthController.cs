@@ -64,7 +64,11 @@ public class AuthController(AppDbContext db, IConfiguration config) : Controller
 
     private string GenerateToken(string username)
     {
-        var key  = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]!));
+        // Must resolve the key the SAME way Program.cs validates it (JWT_KEY env
+        // first, then appsettings) — otherwise signing and validation use
+        // different keys and every token is rejected with 401.
+        var keyStr = Environment.GetEnvironmentVariable("JWT_KEY") ?? config["Jwt:Key"]!;
+        var key  = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(keyStr));
         var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
         var tok  = new JwtSecurityToken(
             issuer:   config["Jwt:Issuer"],
