@@ -280,6 +280,40 @@ menu_update() {
     cp "${TMP_DIR}/r-ui.sh" /usr/local/bin/r-ui
     chmod +x /usr/local/bin/r-ui
 
+    # ── Regenerate nginx performance config (self-heal) ──
+    # NOTE: gzip is already enabled in the main nginx.conf; do NOT redeclare
+    # `gzip on;` here or nginx refuses to load any config and the site goes down.
+    info "Refreshing nginx performance config..."
+    cat > /etc/nginx/conf.d/performance.conf <<'NGINXPERF'
+gzip_vary on;
+gzip_proxied any;
+gzip_comp_level 6;
+gzip_types text/plain text/css text/javascript application/javascript application/json image/svg+xml;
+
+open_file_cache max=1000 inactive=20s;
+open_file_cache_valid 30s;
+open_file_cache_min_uses 2;
+
+client_max_body_size 20M;
+keepalive_timeout 65;
+
+# Security headers
+add_header X-Frame-Options "SAMEORIGIN" always;
+add_header X-Content-Type-Options "nosniff" always;
+add_header X-XSS-Protection "1; mode=block" always;
+add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+add_header Permissions-Policy "camera=(), microphone=(), geolocation=()" always;
+
+# Limit login endpoint rate
+limit_req_zone $binary_remote_addr zone=login:10m rate=5r/m;
+NGINXPERF
+    if nginx -t 2>/dev/null; then
+        systemctl reload nginx
+        info "Nginx config refreshed and reloaded"
+    else
+        warn "Nginx config test failed — left previous config running"
+    fi
+
     # ── Restore appsettings ──
     cat > "$PUBLISH_DIR/appsettings.json" <<APPEOF
 {
