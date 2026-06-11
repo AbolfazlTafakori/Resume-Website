@@ -164,9 +164,45 @@ function bindPreview(inputId, previewId) {
     });
 }
 
-bindPreview('file-home-avatar', 'preview-home-avatar');
-bindPreview('file-about-avatar', 'preview-about-avatar');
-bindPreview('file-contact-avatar', 'preview-contact-avatar');
+// Avatar inputs: upload AND save immediately when a file is chosen.
+// No separate "Save" step — picking the image is the whole action.
+function bindAvatarAutoSave(inputId, previewId, field) {
+    document.getElementById(inputId).addEventListener('change', async function() {
+        const file = this.files[0];
+        if (!file) return;
+
+        // instant local preview
+        const r = new FileReader();
+        r.onload = e => document.getElementById(previewId).src = e.target.result;
+        r.readAsDataURL(file);
+
+        try {
+            const filename = await uploadFile(this, document.getElementById(previewId));
+            const res = await fetch(`${API}/profile`, {
+                method: 'PUT',
+                headers: authHeaders(),
+                body: JSON.stringify({ [field]: filename })
+            });
+            if (res.status === 401) {
+                localStorage.removeItem('admin_token');
+                window.location.href = 'login.html';
+                return;
+            }
+            if (!res.ok) {
+                let detail = ''; try { detail = await res.text(); } catch {}
+                throw new Error(`HTTP ${res.status}${detail ? ': ' + detail : ''}`);
+            }
+            showToast('Image uploaded and saved!');
+            this.value = ''; // clear so the main Save won't re-upload it
+        } catch (e) {
+            showToast('Upload failed: ' + e.message, true);
+        }
+    });
+}
+
+bindAvatarAutoSave('file-home-avatar',    'preview-home-avatar',    'homeAvatar');
+bindAvatarAutoSave('file-about-avatar',   'preview-about-avatar',   'aboutAvatar');
+bindAvatarAutoSave('file-contact-avatar', 'preview-contact-avatar', 'contactAvatar');
 bindPreview('file-skill-icon', 'preview-skill-icon');
 bindPreview('file-project-img', 'preview-project-img');
 

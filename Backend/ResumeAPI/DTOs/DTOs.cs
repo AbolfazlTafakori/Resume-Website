@@ -3,9 +3,12 @@ namespace ResumeAPI.DTOs;
 public record LoginRequest(string Username, string Password);
 public record ChangePasswordRequest(string CurrentPassword, string NewPassword);
 
+// All fields nullable so partial updates (e.g. saving only an avatar) bind
+// without tripping ASP.NET's implicit [Required] on non-nullable strings,
+// which otherwise returns 400. ProfileController only writes non-null fields.
 public record ProfileDto(
-    string HeroTitle, string HeroSubtitle,
-    string Name, string Title, string Location, string Bio,
+    string? HeroTitle, string? HeroSubtitle,
+    string? Name, string? Title, string? Location, string? Bio,
     string? HomeAvatar, string? AboutAvatar, string? ContactAvatar,
     string? HomeAvatarBorderColor,
     string? AboutAvatarBorderColor,

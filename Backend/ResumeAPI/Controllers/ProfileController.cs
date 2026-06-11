@@ -25,12 +25,14 @@ public class ProfileController(AppDbContext db) : ControllerBase
         var p = await db.Profiles.FirstOrDefaultAsync() ?? new Profile();
         bool isNew = p.Id == 0;
 
-        p.HeroTitle      = dto.HeroTitle;
-        p.HeroSubtitle   = dto.HeroSubtitle;
-        p.Name           = dto.Name;
-        p.Title          = dto.Title;
-        p.Location       = dto.Location;
-        p.Bio            = dto.Bio;
+        // Only overwrite fields that were actually supplied, so a partial
+        // update (e.g. saving just an avatar) doesn't wipe the text fields.
+        if (dto.HeroTitle                 != null) p.HeroTitle                 = dto.HeroTitle;
+        if (dto.HeroSubtitle              != null) p.HeroSubtitle              = dto.HeroSubtitle;
+        if (dto.Name                      != null) p.Name                      = dto.Name;
+        if (dto.Title                     != null) p.Title                     = dto.Title;
+        if (dto.Location                  != null) p.Location                  = dto.Location;
+        if (dto.Bio                       != null) p.Bio                       = dto.Bio;
         if (dto.HomeAvatar                != null) p.HomeAvatar                = dto.HomeAvatar;
         if (dto.AboutAvatar               != null) p.AboutAvatar               = dto.AboutAvatar;
         if (dto.ContactAvatar             != null) p.ContactAvatar             = dto.ContactAvatar;
