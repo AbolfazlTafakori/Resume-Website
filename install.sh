@@ -333,8 +333,10 @@ step "Configuring Nginx"
 rm -f /etc/nginx/sites-enabled/default
 
 # ── Global nginx performance settings ───────
+# NOTE: gzip is already enabled in the main nginx.conf http{} block.
+# Do NOT redeclare `gzip on;` here — it makes the directive duplicate
+# and nginx refuses to load any config (site goes down).
 cat > /etc/nginx/conf.d/performance.conf <<'NGINXPERF'
-gzip on;
 gzip_vary on;
 gzip_proxied any;
 gzip_comp_level 6;
@@ -355,7 +357,7 @@ add_header Referrer-Policy "strict-origin-when-cross-origin" always;
 add_header Permissions-Policy "camera=(), microphone=(), geolocation=()" always;
 
 # Limit login endpoint rate
-limit_req_zone \$binary_remote_addr zone=login:10m rate=5r/m;
+limit_req_zone $binary_remote_addr zone=login:10m rate=5r/m;
 NGINXPERF
 
 # ── Main resume site ────────────────────────
