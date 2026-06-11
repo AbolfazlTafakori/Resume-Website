@@ -18,8 +18,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (profile.heroSubtitle && subtitleEl) subtitleEl.textContent = profile.heroSubtitle;
 
         const avatarEl = document.getElementById('hero-avatar');
-        if (avatarEl && profile.homeAvatar) {
-            swapAvatar(avatarEl, `${API_BASE}/uploads/${profile.homeAvatar}`);
+        if (avatarEl) {
+            // Fall back to the bundled default image when no avatar is uploaded
+            const avatarSrc = profile.homeAvatar
+                ? `${API_BASE}/uploads/${profile.homeAvatar}`
+                : '../assets/images/HomePage/Logo.png';
+            swapAvatar(avatarEl, avatarSrc);
         }
 
         const homeAvatarEl = document.querySelector('.hero-avatar img');

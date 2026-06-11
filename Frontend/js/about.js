@@ -17,7 +17,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (profile.name)        document.getElementById('about-name').textContent  = profile.name;
         if (profile.title)       document.getElementById('about-role').textContent  = profile.title;
         if (profile.bio)         document.getElementById('about-desc').textContent  = profile.bio;
-        if (profile.aboutAvatar) swapAvatar(document.getElementById('about-avatar'), `${API_BASE}/uploads/${profile.aboutAvatar}`);
+        swapAvatar(document.getElementById('about-avatar'), profile.aboutAvatar
+            ? `${API_BASE}/uploads/${profile.aboutAvatar}`
+            : '../assets/images/AboutMe/Logo.png');
 
         const avatarEl = document.querySelector('.profile-avatar');
         if (avatarEl) {
