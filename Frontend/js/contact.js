@@ -58,14 +58,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     applySiteTexts('contact');
 
+    const DEFAULT_AVATAR = '../assets/images/Contact/Logo.png';
     const profile = await apiFetch('/profile');
+
+    // Always render an avatar — fall back to the bundled default if the API is
+    // unreachable or the uploaded file fails to load.
+    swapAvatar(document.getElementById('contact-avatar'), (profile && profile.contactAvatar)
+        ? `${API_BASE}/uploads/${profile.contactAvatar}`
+        : DEFAULT_AVATAR, DEFAULT_AVATAR);
+
     if (profile) {
         if (profile.name)          document.getElementById('contact-name').textContent     = profile.name;
         if (profile.title)         document.getElementById('contact-role').textContent     = profile.title;
         if (profile.location)      document.getElementById('contact-location').textContent = profile.location;
-        swapAvatar(document.getElementById('contact-avatar'), profile.contactAvatar
-            ? `${API_BASE}/uploads/${profile.contactAvatar}`
-            : '../assets/images/Contact/Logo.png');
         const contactAvatarEl = document.querySelector('.profile-avatar');
         if (contactAvatarEl) {
             const color = safeColor(profile.contactAvatarBorderColor, '#c9960a');
@@ -110,11 +115,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (window.revealScan) revealScan();
 });
 
-function swapAvatar(imgEl, newSrc) {
+function swapAvatar(imgEl, newSrc, fallbackSrc) {
     if (!imgEl) return;
     imgEl.style.opacity = '0';
+    const reveal = (src) => { imgEl.src = src; imgEl.style.opacity = '1'; };
     const tmp = new Image();
-    tmp.onload = () => { imgEl.src = newSrc; imgEl.style.opacity = '1'; };
-    tmp.onerror = () => {};
+    tmp.onload = () => reveal(newSrc);
+    tmp.onerror = () => {
+        if (fallbackSrc && fallbackSrc !== newSrc) {
+            const fb = new Image();
+            fb.onload  = () => reveal(fallbackSrc);
+            fb.onerror = () => {};
+            fb.src = fallbackSrc;
+        }
+    };
     tmp.src = newSrc;
 }

@@ -12,14 +12,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     applySiteTexts('about');
 
+    const DEFAULT_AVATAR = '../assets/images/AboutMe/Logo.png';
     const profile = await apiFetch('/profile');
+
+    // Always render an avatar — fall back to the bundled default if the API is
+    // unreachable or the uploaded file fails to load.
+    swapAvatar(document.getElementById('about-avatar'), (profile && profile.aboutAvatar)
+        ? `${API_BASE}/uploads/${profile.aboutAvatar}`
+        : DEFAULT_AVATAR, DEFAULT_AVATAR);
+
     if (profile) {
         if (profile.name)        document.getElementById('about-name').textContent  = profile.name;
         if (profile.title)       document.getElementById('about-role').textContent  = profile.title;
         if (profile.bio)         document.getElementById('about-desc').textContent  = profile.bio;
-        swapAvatar(document.getElementById('about-avatar'), profile.aboutAvatar
-            ? `${API_BASE}/uploads/${profile.aboutAvatar}`
-            : '../assets/images/AboutMe/Logo.png');
 
         const avatarEl = document.querySelector('.profile-avatar');
         if (avatarEl) {
@@ -64,11 +69,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (window.revealScan) revealScan();
 });
 
-function swapAvatar(imgEl, newSrc) {
+function swapAvatar(imgEl, newSrc, fallbackSrc) {
     if (!imgEl) return;
     imgEl.style.opacity = '0';
+    const reveal = (src) => { imgEl.src = src; imgEl.style.opacity = '1'; };
     const tmp = new Image();
-    tmp.onload = () => { imgEl.src = newSrc; imgEl.style.opacity = '1'; };
-    tmp.onerror = () => {};
+    tmp.onload = () => reveal(newSrc);
+    tmp.onerror = () => {
+        if (fallbackSrc && fallbackSrc !== newSrc) {
+            const fb = new Image();
+            fb.onload  = () => reveal(fallbackSrc);
+            fb.onerror = () => {};
+            fb.src = fallbackSrc;
+        }
+    };
     tmp.src = newSrc;
 }

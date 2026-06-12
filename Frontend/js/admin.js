@@ -305,7 +305,7 @@ async function saveProfile() {
         bio:            document.getElementById('profileBio').value,
         homeAvatarBorderColor:    document.getElementById('homeAvatarBorderColorHex').value.trim()    || '#5b8dee',
         aboutAvatarBorderColor:   document.getElementById('aboutAvatarBorderColorHex').value.trim()   || '#5b8dee',
-        contactAvatarBorderColor: document.getElementById('contactAvatarBorderColorHex').value.trim() || '#5b8dee',
+        contactAvatarBorderColor: document.getElementById('contactAvatarBorderColorHex').value.trim() || '#c9960a',
     };
     if (homeAvatar)    body.homeAvatar    = homeAvatar;
     if (aboutAvatar)   body.aboutAvatar   = aboutAvatar;

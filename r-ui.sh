@@ -307,6 +307,19 @@ add_header Permissions-Policy "camera=(), microphone=(), geolocation=()" always;
 # Limit login endpoint rate
 limit_req_zone $binary_remote_addr zone=login:10m rate=5r/m;
 NGINXPERF
+    # ── Self-heal site configs (proxy precedence) ──
+    # Older installs declared `location /api/` as a plain prefix, which the
+    # static-file regex locations (png/jpg/css/js) shadow — so uploaded media
+    # like /api/uploads/avatar.png got served from disk and 404'd. Promote it to
+    # `^~ /api/` so nginx skips the regexes for anything under /api/.
+    # Done with sed (not a full rewrite) to preserve certbot's SSL edits.
+    for conf in "$NGINX_MAIN" "$NGINX_ADMIN"; do
+        if [[ -f "$conf" ]] && grep -qP 'location\s+/api/\s*\{' "$conf"; then
+            sed -i -E 's|location[[:space:]]+/api/[[:space:]]*\{|location ^~ /api/ {|' "$conf"
+            info "Patched $(basename "$conf"): /api/ -> ^~ /api/"
+        fi
+    done
+
     if nginx -t 2>/dev/null; then
         systemctl reload nginx
         info "Nginx config refreshed and reloaded"

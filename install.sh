@@ -377,6 +377,10 @@ server {
         try_files \$uri \$uri/ =404;
     }
 
+    # NOTE: '^~' on the /api/ prefix below makes nginx skip regex locations for
+    # anything under /api/. Without it these static-file regexes would match
+    # uploaded media like /api/uploads/avatar.png (ends in .png) and try to serve
+    # it from disk -> 404, so avatars/project images never render on the site.
     location ~* \.(jpg|jpeg|png|gif|ico|svg|webp|woff2|woff|ttf)$ {
         expires 30d;
         add_header Cache-Control "public, immutable";
@@ -402,7 +406,7 @@ server {
         proxy_set_header   X-Forwarded-Proto \$scheme;
     }
 
-    location /api/ {
+    location ^~ /api/ {
         proxy_pass         http://localhost:${APP_PORT}/api/;
         proxy_http_version 1.1;
         proxy_set_header   Host              \$host;
@@ -434,7 +438,7 @@ server {
         try_files \$uri \$uri/ /admin/login.html;
     }
 
-    location /api/ {
+    location ^~ /api/ {
         proxy_pass         http://localhost:${APP_PORT}/api/;
         proxy_http_version 1.1;
         proxy_set_header   Host              \$host;

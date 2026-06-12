@@ -12,19 +12,23 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     applySiteTexts('home');
 
+    const DEFAULT_AVATAR = '../assets/images/HomePage/Logo.png';
     const profile = await apiFetch('/profile');
+
+    // Always render an avatar. Even when the API is unreachable or the uploaded
+    // file fails to load, swapAvatar falls back to the bundled default image —
+    // so the hero is never left blank.
+    const avatarEl = document.getElementById('hero-avatar');
+    if (avatarEl) {
+        const avatarSrc = (profile && profile.homeAvatar)
+            ? `${API_BASE}/uploads/${profile.homeAvatar}`
+            : DEFAULT_AVATAR;
+        swapAvatar(avatarEl, avatarSrc, DEFAULT_AVATAR);
+    }
+
     if (profile) {
         if (profile.heroTitle && titleEl)       titleEl.textContent    = profile.heroTitle;
         if (profile.heroSubtitle && subtitleEl) subtitleEl.textContent = profile.heroSubtitle;
-
-        const avatarEl = document.getElementById('hero-avatar');
-        if (avatarEl) {
-            // Fall back to the bundled default image when no avatar is uploaded
-            const avatarSrc = profile.homeAvatar
-                ? `${API_BASE}/uploads/${profile.homeAvatar}`
-                : '../assets/images/HomePage/Logo.png';
-            swapAvatar(avatarEl, avatarSrc);
-        }
 
         const homeAvatarEl = document.querySelector('.hero-avatar img');
         if (homeAvatarEl) {
@@ -59,15 +63,22 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (window.revealScan) revealScan();
 });
 
-/* Load avatar — fade in when ready */
-function swapAvatar(imgEl, newSrc) {
+/* Load avatar — fade in when ready, fall back to default if it fails */
+function swapAvatar(imgEl, newSrc, fallbackSrc) {
     if (!imgEl) return;
     imgEl.style.opacity = '0';
+    const reveal = (src) => { imgEl.src = src; imgEl.style.opacity = '1'; };
     const tmp = new Image();
-    tmp.onload = () => {
-        imgEl.src = newSrc;
-        imgEl.style.opacity = '1';
+    tmp.onload = () => reveal(newSrc);
+    tmp.onerror = () => {
+        // Uploaded image missing/broken — show the bundled default instead of
+        // leaving the avatar invisible.
+        if (fallbackSrc && fallbackSrc !== newSrc) {
+            const fb = new Image();
+            fb.onload  = () => reveal(fallbackSrc);
+            fb.onerror = () => {};
+            fb.src = fallbackSrc;
+        }
     };
-    tmp.onerror = () => { /* keep hidden if image fails */ };
     tmp.src = newSrc;
 }
