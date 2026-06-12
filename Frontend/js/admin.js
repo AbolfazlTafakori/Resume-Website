@@ -257,6 +257,40 @@ async function saveTexts() {
     } catch { showToast('Error saving texts', true); }
 }
 
+// The Contact page "Title / Role" shows profile.title (same value as the About
+// page role). Its Save button writes the role to the profile, then saves the
+// rest of the page texts.
+async function saveContactTexts() {
+    try {
+        const role = document.getElementById('contactRole');
+        if (role) {
+            const res = await fetch(`${API}/profile`, {
+                method: 'PUT',
+                headers: authHeaders(),
+                body: JSON.stringify({ title: role.value })
+            });
+            if (res.status === 401) {
+                localStorage.removeItem('admin_token');
+                window.location.href = 'login.html';
+                return;
+            }
+            const pt = document.getElementById('profileTitle');
+            if (pt) pt.value = role.value; // keep the Identity field in sync
+        }
+    } catch { showToast('Error saving role', true); return; }
+    await saveTexts();
+}
+
+// Keep the two title inputs mirrored so editing either one — or hitting the
+// main Save button — never clobbers the other (both map to profile.title).
+(function syncTitleInputs() {
+    const a = document.getElementById('profileTitle');
+    const b = document.getElementById('contactRole');
+    if (!a || !b) return;
+    a.addEventListener('input', () => { b.value = a.value; });
+    b.addEventListener('input', () => { a.value = b.value; });
+})();
+
 // ---- PROFILE ----
 function setColor(pickerId, hexId, value) {
     const v = value || '#5b8dee';
@@ -274,6 +308,8 @@ async function loadProfile() {
         document.getElementById('heroSubtitle').value     = p.heroSubtitle || "Hi, I'm Mrnobudi, passionate Back end Web Developer From IRAN";
         document.getElementById('profileName').value      = p.name         || 'Mrnobudi';
         document.getElementById('profileTitle').value     = p.title        || 'Back-end Developer';
+        const contactRoleEl = document.getElementById('contactRole');
+        if (contactRoleEl) contactRoleEl.value = p.title || 'Back-end Developer';
         document.getElementById('profileLocation').value  = p.location     || '';
         document.getElementById('profileBio').value       = p.bio          || 'Chief Technology Officer with experience in leading innovative teams and implementing scalable solutions.';
         document.getElementById('preview-home-avatar').src    = p.homeAvatar    ? `${API}/uploads/${p.homeAvatar}`    : '../assets/images/HomePage/Logo.png';
