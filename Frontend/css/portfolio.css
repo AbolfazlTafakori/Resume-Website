@@ -98,6 +98,8 @@ body::before {
     -webkit-box-orient: vertical;
     overflow: hidden;
     transition: max-height 0.3s ease;
+    white-space: pre-wrap;     /* preserve line breaks (clamped to 3 lines in preview) */
+    overflow-wrap: break-word;
 }
 
 .btn-see-more {
@@ -172,6 +174,8 @@ body::before {
     color: rgba(255,255,255,0.72);
     overflow-y: auto;
     flex: 1;
+    white-space: pre-wrap;     /* keep the line breaks & blank lines the user typed */
+    overflow-wrap: break-word; /* but still wrap long words / URLs */
 }
 
 .overview-panel-close {
