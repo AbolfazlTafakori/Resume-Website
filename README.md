@@ -13,6 +13,7 @@ A full-stack personal resume website with an admin panel to manage all content �
 - 🗄️ SQLite database (zero configuration)
 - 🌐 nginx reverse proxy with HTTPS (Let's Encrypt)
 - 🔄 Auto SSL renewal
+- 💾 One-click backup & restore from the admin panel (portable across domains/servers)
 - 🛠️ `r-ui` CLI tool for server management
 
 ---
@@ -60,8 +61,28 @@ After installation, type `r-ui` on the server to open the management menu:
   [1]  Domain management
   [2]  Admin credentials  (username / password)
   [3]  Service management  (restart / logs)
+  [4]  Update to latest version  (keeps your data)
+  [5]  Uninstall
   [0]  Exit
 ```
+
+> Updating pulls the latest code, rebuilds, and self-heals the nginx config —
+> your database, uploads, credentials and domains are kept intact.
+
+---
+
+## 💾 Backup & Restore
+
+From the admin panel, the **Backup & Restore** button (sidebar footer) lets you:
+
+- **Download Backup** — a single `.zip` containing the SQLite database (all your
+  content **and** the admin username/password) plus every uploaded image.
+- **Restore** — upload a backup `.zip` to replace all content, images and the
+  admin login with the ones from the backup.
+
+The backup is **portable on purpose**: it carries no domains, JWT key or server
+config (those live in nginx/systemd), so it restores cleanly onto a different
+domain or a brand-new server.
 
 ---
 
@@ -97,6 +118,30 @@ After installation, type `r-ui` on the server to open the management menu:
 ├── install.sh              # One-command installer
 └── r-ui.sh                 # Server management CLI
 ```
+
+---
+
+## 💻 Local Development
+
+Run it on your own machine without nginx/SSL.
+
+**Backend** (from `Backend/ResumeAPI/`):
+
+```bash
+dotnet run --urls http://localhost:5021
+```
+
+The SQLite database is created automatically on first run. Default admin login is
+`admin` / `admin123` (override with the `ADMIN_USERNAME` / `ADMIN_PASSWORD` env vars).
+
+**Frontend** (from `Frontend/`):
+
+```bash
+python -m http.server 3000
+```
+
+Then open `http://localhost:3000/pages/index.html`. `js/config.js` auto-detects
+`localhost` and points the API at `http://localhost:5021/api`.
 
 ---
 
