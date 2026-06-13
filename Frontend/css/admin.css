@@ -219,6 +219,27 @@ body {
 
 .btn-logout:hover { border-color: var(--danger); color: var(--danger); }
 
+.btn-github {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 9px;
+    margin-bottom: 8px;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--text-muted);
+    font-family: var(--font);
+    font-size: 13px;
+    text-decoration: none;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.btn-github svg { flex-shrink: 0; }
+.btn-github:hover { border-color: var(--accent); color: var(--accent); }
+.btn-github.star:hover { border-color: #e3b341; color: #e3b341; }
+
 /* ======== MAIN CONTENT ======== */
 .main-content {
     margin-left: var(--sidebar-w);
