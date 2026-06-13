@@ -881,6 +881,94 @@ async function savePassword() {
     } catch { showToast('Failed to change password.', true); }
 }
 
+// ---- BACKUP & RESTORE ----
+(function initRestoreInput() {
+    const input = document.getElementById('file-restore');
+    const label = document.getElementById('restore-filename');
+    if (!input || !label) return;
+    input.addEventListener('change', () => {
+        label.textContent = input.files[0] ? input.files[0].name : 'No file chosen';
+    });
+})();
+
+async function downloadBackup() {
+    const btn = document.getElementById('backup-btn');
+    if (btn) { btn.disabled = true; btn.textContent = 'Preparing...'; }
+    try {
+        const res = await fetch(`${API}/backup`, {
+            headers: { 'Authorization': `Bearer ${localStorage.getItem('admin_token')}` }
+        });
+        if (res.status === 401) {
+            localStorage.removeItem('admin_token');
+            window.location.href = 'login.html';
+            return;
+        }
+        if (!res.ok) { showToast('Backup failed', true); return; }
+        const blob = await res.blob();
+        // Use the server-provided filename when available
+        let name = `resume-backup-${new Date().toISOString().slice(0,19).replace(/[:T]/g,'-')}.zip`;
+        const cd = res.headers.get('Content-Disposition');
+        const m = cd && cd.match(/filename="?([^"]+)"?/);
+        if (m) name = m[1];
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = name;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        showToast('Backup downloaded!');
+    } catch (e) {
+        showToast('Backup failed: ' + e.message, true);
+    } finally {
+        if (btn) { btn.disabled = false; btn.textContent = 'Download Backup'; }
+    }
+}
+
+function restoreBackup() {
+    const input = document.getElementById('file-restore');
+    const f = input && input.files[0];
+    if (!f) { showToast('Choose a backup file first.', true); return; }
+    confirmDelete(
+        'Restore this backup?',
+        'This will REPLACE all current content, images and the admin username/password with the backup. This cannot be undone.',
+        async () => {
+            const btn = document.getElementById('restore-btn');
+            if (btn) { btn.disabled = true; btn.textContent = 'Restoring...'; }
+            try {
+                const form = new FormData();
+                form.append('file', f);
+                const res = await fetch(`${API}/restore`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${localStorage.getItem('admin_token')}` },
+                    body: form
+                });
+                if (res.status === 401) {
+                    localStorage.removeItem('admin_token');
+                    window.location.href = 'login.html';
+                    return;
+                }
+                if (!res.ok) {
+                    let detail = ''; try { detail = await res.text(); } catch {}
+                    showToast('Restore failed' + (detail ? ': ' + detail : ''), true);
+                    return;
+                }
+                showToast('Backup restored! Please log in again.');
+                // Credentials may have changed to the backup's — force a fresh login.
+                setTimeout(() => {
+                    localStorage.removeItem('admin_token');
+                    window.location.href = 'login.html';
+                }, 1800);
+            } catch (e) {
+                showToast('Restore failed: ' + e.message, true);
+            } finally {
+                if (btn) { btn.disabled = false; btn.textContent = 'Restore Now'; }
+            }
+        }
+    );
+}
+
 // ---- SAVE ALL ----
 document.getElementById('save-btn').addEventListener('click', async () => {
     const btn = document.getElementById('save-btn');
