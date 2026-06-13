@@ -240,6 +240,27 @@ body {
 .btn-github:hover { border-color: var(--accent); color: var(--accent); }
 .btn-github.star:hover { border-color: #e3b341; color: #e3b341; }
 
+.btn-backup {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: rgba(91,141,238,0.14);
+    border: 1px solid rgba(91,141,238,0.45);
+    border-radius: 8px;
+    color: var(--accent);
+    font-family: var(--font);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+.btn-backup svg { flex-shrink: 0; }
+.btn-backup:hover { background: rgba(91,141,238,0.22); border-color: var(--accent); }
+
 /* ======== MAIN CONTENT ======== */
 .main-content {
     margin-left: var(--sidebar-w);
