@@ -294,7 +294,7 @@ open_file_cache max=1000 inactive=20s;
 open_file_cache_valid 30s;
 open_file_cache_min_uses 2;
 
-client_max_body_size 20M;
+client_max_body_size 100M;
 keepalive_timeout 65;
 
 # Security headers
@@ -314,9 +314,15 @@ NGINXPERF
     # `^~ /api/` so nginx skips the regexes for anything under /api/.
     # Done with sed (not a full rewrite) to preserve certbot's SSL edits.
     for conf in "$NGINX_MAIN" "$NGINX_ADMIN"; do
-        if [[ -f "$conf" ]] && grep -qP 'location\s+/api/\s*\{' "$conf"; then
+        [[ -f "$conf" ]] || continue
+        if grep -qP 'location\s+/api/\s*\{' "$conf"; then
             sed -i -E 's|location[[:space:]]+/api/[[:space:]]*\{|location ^~ /api/ {|' "$conf"
             info "Patched $(basename "$conf"): /api/ -> ^~ /api/"
+        fi
+        # Allow large backup/restore uploads (avatars + project images in one zip)
+        if grep -qE 'client_max_body_size[[:space:]]+20M;' "$conf"; then
+            sed -i -E 's|client_max_body_size[[:space:]]+20M;|client_max_body_size 100M;|' "$conf"
+            info "Patched $(basename "$conf"): upload limit 20M -> 100M"
         fi
     done
 

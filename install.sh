@@ -346,7 +346,7 @@ open_file_cache max=1000 inactive=20s;
 open_file_cache_valid 30s;
 open_file_cache_min_uses 2;
 
-client_max_body_size 20M;
+client_max_body_size 100M;
 keepalive_timeout 65;
 
 # Security headers
@@ -416,7 +416,7 @@ server {
         proxy_read_timeout 60s;
     }
 
-    client_max_body_size 20M;
+    client_max_body_size 100M;
 }
 EOF
 
@@ -448,7 +448,7 @@ server {
         proxy_read_timeout 60s;
     }
 
-    client_max_body_size 20M;
+    client_max_body_size 100M;
 }
 EOF
 

@@ -66,46 +66,64 @@ public class BackupController(AppDbContext db, IWebHostEnvironment env) : Contro
     {
         if (file is null || file.Length == 0) return BadRequest("No file uploaded");
 
+        // Buffer the upload into memory so the zip reader has a well-behaved,
+        // seekable stream (the raw request stream throws on the backward seeks
+        // ZipArchive does when the payload isn't actually a zip).
+        using var buffer = new MemoryStream();
+        await file.CopyToAsync(buffer);
+        buffer.Position = 0;
+
+        ZipArchive archive;
+        try
+        {
+            archive = new ZipArchive(buffer, ZipArchiveMode.Read, leaveOpen: true);
+        }
+        catch (Exception ex) when (ex is InvalidDataException or ArgumentException or IOException)
+        {
+            return BadRequest("Invalid backup file (not a valid .zip)");
+        }
+
         var snapshot = Path.Combine(Path.GetTempPath(), $"resume-restore-{Guid.NewGuid():N}.db");
         try
         {
-            using var archive = new ZipArchive(file.OpenReadStream(), ZipArchiveMode.Read);
-
-            var dbEntry = archive.GetEntry("resume.db");
-            if (dbEntry is null) return BadRequest("Invalid backup file (resume.db not found)");
-
-            await using (var es = dbEntry.Open())
-            await using (var fs = System.IO.File.Create(snapshot))
-                await es.CopyToAsync(fs);
-
-            // Replace the live data table-by-table from the snapshot, atomically.
-            try
+            using (archive)
             {
-                await RestoreDatabaseAsync(snapshot);
-            }
-            catch (SqliteException ex)
-            {
-                return BadRequest($"Backup is not compatible with this version ({ex.Message})");
-            }
+                var dbEntry = archive.GetEntry("resume.db");
+                if (dbEntry is null) return BadRequest("Invalid backup file (resume.db not found)");
 
-            // Restore uploaded images (overwrite by name; ignore anything else).
-            Directory.CreateDirectory(UploadsPath);
-            foreach (var entry in archive.Entries)
-            {
-                if (!entry.FullName.StartsWith("uploads/", StringComparison.Ordinal)) continue;
-                var safe = Path.GetFileName(entry.FullName);
-                if (string.IsNullOrEmpty(safe) || safe.Contains("..")) continue;
-                var dest = Path.Combine(UploadsPath, safe);
-                await using var es = entry.Open();
-                await using var fs = System.IO.File.Create(dest);
-                await es.CopyToAsync(fs);
+                await using (var es = dbEntry.Open())
+                await using (var fs = System.IO.File.Create(snapshot))
+                    await es.CopyToAsync(fs);
+
+                // Replace the live data table-by-table from the snapshot, atomically.
+                try
+                {
+                    await RestoreDatabaseAsync(snapshot);
+                }
+                catch (SqliteException ex)
+                {
+                    return BadRequest($"Backup is not compatible with this version ({ex.Message})");
+                }
+
+                // Restore uploaded images (overwrite by name; ignore anything else).
+                Directory.CreateDirectory(UploadsPath);
+                foreach (var entry in archive.Entries)
+                {
+                    if (!entry.FullName.StartsWith("uploads/", StringComparison.Ordinal)) continue;
+                    var safe = Path.GetFileName(entry.FullName);
+                    if (string.IsNullOrEmpty(safe) || safe.Contains("..")) continue;
+                    var dest = Path.Combine(UploadsPath, safe);
+                    await using var es = entry.Open();
+                    await using var fs = System.IO.File.Create(dest);
+                    await es.CopyToAsync(fs);
+                }
             }
 
             return Ok(new { restored = true });
         }
         catch (InvalidDataException)
         {
-            return BadRequest("Invalid backup file (not a valid .zip)");
+            return BadRequest("Invalid backup file (corrupt archive)");
         }
         finally
         {
